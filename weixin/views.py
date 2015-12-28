@@ -1,4 +1,6 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+__author__ = 'yijingping'
 from django.http import HttpResponse
 from .util import wechat
 
