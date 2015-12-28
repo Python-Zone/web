@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^jobs/', include('jobs.urls')),
+    url(r'^weixin/', include('weixin.urls')),
+
 ]

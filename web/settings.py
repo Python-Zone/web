@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'jobs',
+    'weixin',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,6 +114,14 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_URL = '/admin/login'
+
+# wechat config
+WEIXIN = {
+    "WEIXIN_TOKEN": "",
+    "WEIXIN_APP_ID": "",
+    "WEIXIN_APP_SECRET": "",
+    "WEIXIN_ENCODING_AES_KEY": ""
+}
 
 ## Import local settings
 try:
