@@ -20,7 +20,7 @@ class JobCrawler(object):
     def get_lists(self):
         api = 'http://www.lagou.com/jobs/positionAjax.json?px=new'
         lists = []
-        for item in range(55, 86):
+        for item in range(0, 90):
             lists.append({
                 "url": api,
                 "method": "post",
