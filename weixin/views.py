@@ -2,10 +2,11 @@
 from __future__ import unicode_literals
 __author__ = 'yijingping'
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from .util import wechat
 from wechat_sdk.messages import TextMessage, EventMessage
 
-
+@csrf_exempt
 def index(request):
     if request.method == 'GET':
         # 处理微信的echostr验证消息
@@ -23,7 +24,7 @@ def index(request):
     elif request.method == 'POST':
         signature = request.GET.get('signature')
         timestamp = request.GET.get('timestamp')
-        nonce = request.get('nonce', None)
+        nonce = request.GET.get('nonce', None)
         body_text = request.body
 
         if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
@@ -34,7 +35,14 @@ def index(request):
 
             response = None
             if isinstance(message, TextMessage):
-                response = ''
+                response = wechat.response_news([
+                    {
+                        'title': '欢迎关注Python社区',
+                        'description': '我们将每天为你推送Python最新的文章、职位、公司和教学信息。',
+                        'picurl': 'http://7teb7o.com1.z0.glb.clouddn.com/activity/b0.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/jobs/job/'
+                    },
+                ])
             elif isinstance(message, EventMessage):  # 事件信息
                 if message.type == 'subscribe':  # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
                     response = wechat.response_news([
