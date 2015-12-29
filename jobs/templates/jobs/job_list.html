@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-9">
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+          最新招聘信息 • 来源于拉勾网
+      </div>
+
+      <div class="panel-body">
+        {% for item in jobs %}
+        <div class="topic media">
+          <div class="avatar media-left">
+            <img class="media-object avatar-48" src="{{ item.avatar }}" alt="">
+          </div>
+          <div class="infos media-body">
+            <div class="title media-heading">
+              <a target="_blank" href="{{ item.url }}">[{{ item.city }}]{{ item.title }}</a>
+            </div>
+            <div class="info">
+              <span>{{ item.company }}</span>
+              •
+              <span>{{ item.company_stage }}</span>
+              •
+              <span>薪资{{ item.salary_min }} - {{ item.salary_max }}</span>
+              •
+              <span>发布于{{ item.publish_time | date:"Y-m-d"}}</span>
+            </div>
+          </div>
+          <div class="count media-right">
+              <a class="state-false" href=""></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="panel-footer clearfix">
+        {% load paginator %}{% paginator jobs %}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sidebar col-md-3">
+  {% include "right_side.html" %}
+  </div><!--.sidebar .col-md-3-->
+
+</div><!--.row-->
+{% endblock %}
