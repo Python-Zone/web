@@ -7,6 +7,8 @@ class Job(models.Model):
     uniqueid = models.CharField(unique=True, max_length=100, verbose_name='url的md5值')
     url = models.CharField(max_length=500, verbose_name='文章的url')
     site = models.CharField(max_length=200, verbose_name='来源网站')
+    originid = models.CharField(max_length=200, verbose_name='来源id')
+    avatar = models.CharField(max_length=500, verbose_name='缩略图地址')
     title = models.CharField(max_length=200, verbose_name='标题')
     description = models.TextField(verbose_name='职位描述')
     salary_min = models.IntegerField(default=0, verbose_name='最低薪资')

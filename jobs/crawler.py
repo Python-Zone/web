@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 __author__ = 'yijingping'
 import requests
 from lxml import etree
+from lxml.html import tostring
 from io import StringIO
 from hashlib import md5
 from datetime import datetime
@@ -36,7 +37,8 @@ class JobCrawler(object):
             for item in result:
                 items.append({
                     "url": "http://www.lagou.com/jobs/%s.html" % item["positionId"],
-                    "method": "get"
+                    "method": "get",
+                    "originid": "%s" % item["positionId"]
                 })
 
         return items
@@ -80,6 +82,7 @@ class JobCrawler(object):
             return ''
 
     def process_item(self, item):
+        print item
         url = item["url"]
         print "url:", url
         rsp = requests.get(url)
@@ -97,7 +100,10 @@ class JobCrawler(object):
             "uniqueid": self._calc_uniqueid(url),
             "url": url,
             "site": "拉勾网",
+            "originid": item["originid"],
+            "avatar": tree.xpath("//dl[@class='job_company']/dt/a/img[@class='b2']/@src")[0],
             "title": tree.xpath("//dl[@class='job_detail']/dt[@class='clearfix join_tc_icon']/h1/text()")[2].strip(),
+            "description": "",
             "salary_min": salary_min,
             "salary_max": salary_max,
             "city": tree.xpath("//dl[@class='job_detail']/dd[@class='job_request']/p[1]/span[2]/text()")[0],
@@ -120,7 +126,8 @@ class JobCrawler(object):
 
     def run(self):
         # self.process_item({
-        #     "url": "http://www.lagou.com/jobs/1339691.html"
+        #     "url": "http://www.lagou.com/jobs/1339691.html",
+        #     "originid": "1339691"
         # })
         # return
         lists = self.get_lists()
