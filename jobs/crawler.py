@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 __author__ = 'yijingping'
 import requests
 from lxml import etree
-from lxml.html import tostring
 from io import StringIO
 from hashlib import md5
 from datetime import datetime
@@ -13,7 +12,7 @@ from django.utils.encoding import smart_str
 
 def print_dict(data):
     for k,v in data.iteritems():
-        print k, ":", v
+        #print k, ":", v
         data[k] = smart_str(v)
 
 class JobCrawler(object):
@@ -21,7 +20,7 @@ class JobCrawler(object):
     def get_lists(self):
         api = 'http://www.lagou.com/jobs/positionAjax.json?px=new'
         lists = []
-        for item in range(0, 90):
+        for item in range(1, 7):
             lists.append({
                 "url": api,
                 "method": "post",
