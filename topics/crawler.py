@@ -12,7 +12,7 @@ from django.utils.encoding import smart_str
 
 def encode_dict(data):
     for k,v in data.iteritems():
-        print k, ":", v
+        #print k, ":", v
         data[k] = smart_str(v)
 
 class TopicCrawler(object):
@@ -20,7 +20,7 @@ class TopicCrawler(object):
     def get_lists(self):
         api = 'http://python.jobbole.com/all-posts/page/%d/'
         lists = []
-        for item in range(1, 33):
+        for item in range(1, 3):
             lists.append({
                 "url": api % item,
                 "method": "get"
