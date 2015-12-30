@@ -13,7 +13,7 @@ class Site(models.Model):
         (CHINA_BUSINESS_SITE, "国内商业网站"),
         (CHINA_STARTUP_SITE, "国内创业公司"),
         (FOREIGN_FAMOUS_SITE, "国外企业/团队"),
-        (FAMOUS_BLOG_SITE, "技术博客"),
+        (FAMOUS_BLOG_SITE, "Python名人堂/技术博客"),
         (PYTHON_COMMUNITY, "Python社区"),
     )
     kind = models.IntegerField(null=True, choices=KIND_CHOICES, verbose_name="类型")

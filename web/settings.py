@@ -39,8 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'web',
-    'jobs',
     'topics',
+    'wiki',
+    'jobs',
     'sites',
     'weixin',
 )

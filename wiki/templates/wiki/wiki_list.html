@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-9">
+  {% for kind in wikis %}
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+          {{ kind.0.1 }}
+      </div>
+      <ul class="list-group">
+         {% for item in kind.1 %}
+         <li class="list-group-item"><a target="_blank" href="{{ item.url }}">{{ item.title }}</a>{% if item.subhead %}&nbsp;&nbsp; - &nbsp;&nbsp;<i>{{ item.subhead }}</i>{% endif %}</li>
+         {% endfor %}
+      </ul>
+
+
+    </div>
+  {% endfor %}
+
+  </div>
+
+  <div class="sidebar col-md-3">
+  {% include "right_side.html" %}
+  </div><!--.sidebar .col-md-3-->
+
+</div><!--.row-->
+{% endblock %}
