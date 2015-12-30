@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+  {% for kind in sites %}
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+          {{ kind.0.1 }}
+      </div>
+
+      <div class="panel-body">
+        {% for item in kind.1 %}
+          <div class="col-md-2 site">
+            <img class="favicon" src="http://www.google.com/profiles/c/favicons?domain={{ item.url }}" alt="">
+          <a target="_blank" rel="nofollow" title="{{ item.abstract }}" href="{{ item.url }}">{{ item.name }}</a>
+        </div>
+        {% endfor %}
+      </div>
+
+
+    </div>
+  {% endfor %}
+
+{% endblock %}

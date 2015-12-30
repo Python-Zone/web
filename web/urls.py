@@ -22,6 +22,7 @@ urlpatterns = [
 
     url(r'^jobs/', include('jobs.urls')),
     url(r'^topics/', include('topics.urls')),
+    url(r'^sites/', include('sites.urls')),
     url(r'^weixin/', include('weixin.urls')),
 
 ]
