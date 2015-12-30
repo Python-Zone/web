@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 
     'web',
     'jobs',
+    'topics',
     'weixin',
 )
 
