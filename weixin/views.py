@@ -38,9 +38,33 @@ def index(request):
                 response = wechat.response_news([
                     {
                         'title': '欢迎关注Python社区',
-                        'description': '我们将每天为你推送Python最新的文章、职位、公司和教学信息。',
-                        'picurl': 'http://7teb7o.com1.z0.glb.clouddn.com/activity/b0.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/jobs/job/'
+                        'description': '',
+                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/bg.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/'
+                    },
+                    {
+                        'title': 'Python每日话题',
+                        'description': '',
+                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobole.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/topics/'
+                    },
+                    {
+                        'title': 'Python入门与进阶教程',
+                        'description': '',
+                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/wiki.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/wiki/'
+                    },
+                    {
+                        'title': 'Python最新的职位信息',
+                        'description': '',
+                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobs.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/topics/'
+                    },
+                    {
+                        'title': '有哪些公司在使用Python ?',
+                        'description': '',
+                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/gongsi.jpg',
+                        'url': 'http://pythonzone.bowenpay.com/sites/'
                     },
                 ])
             elif isinstance(message, EventMessage):  # 事件信息
@@ -53,15 +77,5 @@ def index(request):
                             'url': 'http://pythonzone.bowenpay.com/jobs/job/'
                         },
                     ])
-                elif message.type == 'click':
-                    if message.key == 'Jobs':
-                        response = wechat.response_news([
-                            {
-                                'title': '为你推荐的职位信息',
-                                'description': '每天自动更新最新的Python职位,不放过任何一个好的工作机会.',
-                                'picurl': 'http://7teb7o.com1.z0.glb.clouddn.com/activity/b0.jpg',
-                                'url': 'http://pythonzone.bowenpay.com/jobs/job/'
-                            },
-                        ])
 
             return HttpResponse(response or '')
