@@ -34,48 +34,43 @@ def index(request):
             message = wechat.get_message()
 
             response = None
+            data = wechat.response_news([
+                {
+                    'title': '欢迎关注Python社区',
+                    'description': '',
+                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/bg.jpg',
+                    'url': 'http://pythonzone.bowenpay.com/'
+                },
+                {
+                    'title': 'Python每日话题',
+                    'description': '',
+                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobole.jpg',
+                    'url': 'http://pythonzone.bowenpay.com/topics/'
+                },
+                {
+                    'title': 'Python入门与进阶教程',
+                    'description': '',
+                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/wiki.jpg',
+                    'url': 'http://pythonzone.bowenpay.com/wiki/'
+                },
+                {
+                    'title': 'Python最新的职位信息',
+                    'description': '',
+                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobs.jpg',
+                    'url': 'http://pythonzone.bowenpay.com/jobs/'
+                },
+                {
+                    'title': '有哪些公司在使用Python ?',
+                    'description': '',
+                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/gongsi.jpg',
+                    'url': 'http://pythonzone.bowenpay.com/sites/'
+                },
+            ])
+            
             if isinstance(message, TextMessage):
-                response = wechat.response_news([
-                    {
-                        'title': '欢迎关注Python社区',
-                        'description': '',
-                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/bg.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/'
-                    },
-                    {
-                        'title': 'Python每日话题',
-                        'description': '',
-                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobole.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/topics/'
-                    },
-                    {
-                        'title': 'Python入门与进阶教程',
-                        'description': '',
-                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/wiki.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/wiki/'
-                    },
-                    {
-                        'title': 'Python最新的职位信息',
-                        'description': '',
-                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobs.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/topics/'
-                    },
-                    {
-                        'title': '有哪些公司在使用Python ?',
-                        'description': '',
-                        'picurl': 'http://pythonzone.bowenpay.com/static/web/images/gongsi.jpg',
-                        'url': 'http://pythonzone.bowenpay.com/sites/'
-                    },
-                ])
+                response = data
             elif isinstance(message, EventMessage):  # 事件信息
                 if message.type == 'subscribe':  # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
-                    response = wechat.response_news([
-                        {
-                            'title': '欢迎关注Python社区',
-                            'description': '我们将每天为你推送Python最新的文章、职位、公司和教学信息。',
-                            'picurl': 'http://7teb7o.com1.z0.glb.clouddn.com/activity/b0.jpg',
-                            'url': 'http://pythonzone.bowenpay.com/jobs/job/'
-                        },
-                    ])
+                    response = data
 
             return HttpResponse(response or '')
