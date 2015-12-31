@@ -10,7 +10,7 @@ class Topic(models.Model):
     originid = models.CharField(max_length=200, verbose_name='来源id')
     avatar = models.CharField(max_length=500, verbose_name='缩略图地址')
     title = models.CharField(max_length=200, verbose_name='标题')
-    author = models.CharField(max_length=50, verbose_name='标题')
+    author = models.CharField(max_length=50, verbose_name='作者')
     abstract = models.TextField(default='', verbose_name='文章简介')
     content = models.TextField(default='', verbose_name='文章内容')
     tags = models.CharField(default='', max_length=50, verbose_name='文章标签,以|分割')
