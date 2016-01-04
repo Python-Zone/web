@@ -5,7 +5,7 @@ from django.db import models
 
 class Site(models.Model):
     CHINA_BUSINESS_SITE = 10
-    CHINA_STARTUP_SITE = 20
+    CHINA_STARTUP_SITE = 60
     FOREIGN_FAMOUS_SITE = 30
     FAMOUS_BLOG_SITE = 40
     PYTHON_COMMUNITY = 50
