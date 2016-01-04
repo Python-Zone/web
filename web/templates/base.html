@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -9,6 +10,7 @@
     <title>Python社区</title>
 
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    {% compress css %}
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <!-- font-awesome -->
@@ -19,7 +21,7 @@
     {% block header_css %}
 
     {% endblock %}
-
+    {% endcompress %}
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -47,7 +49,7 @@
          {% endblock %}
 
      </div>
-
+    {% compress js %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static 'jquery/jquery-1.11.3.min.js' %}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -55,6 +57,7 @@
     {% block footer-js %}
 
     {% endblock %}
+    {% endcompress %}
 
   </body>
 </html>
