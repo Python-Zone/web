@@ -1,3 +1,4 @@
 MySQL-python
 requests
 wechat-python-sdk==0.6.1
+django-compressor==1.6

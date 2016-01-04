@@ -1,11 +1,17 @@
 {% extends "base.html" %}
-
+{% load util %}
+{% load paginator %}
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">
     <div class="topics panel panel-default">
       <div class="panel-heading clearfix">
           最新招聘信息 • 来源于拉勾网
+          <p class="job-filter">
+          城市:
+            <a target="_self" href="/jobs/"> 不限 </a>
+            {% for city in citys %} <a target="_self" href="?city={{ city.city }}"> {{ city.city }}<span>({{ city.num }})</span> </a>{% endfor %}
+          </p>
       </div>
 
       <div class="panel-body">

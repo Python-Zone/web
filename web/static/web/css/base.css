@@ -22,3 +22,14 @@
 .site a {
     color: #777;
 }
+
+.job-filter {
+    margin: 10px 0 0 0;
+}
+.job-filter a {
+    padding: 0 5px;
+}
+.job-filter a span {
+    font-size: xx-small;
+    color: #777777;
+}
