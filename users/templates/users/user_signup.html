@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">注册新用户</div>
+      <div class="panel-body">
+        <form class="simple_form " action="" method="post">
+          {% csrf_token %}
+          <div class="form-group avatar-upload" id="pickfiles_container">
+            <img id="pickfiles" src="/static/web/images/upload-avatar-default.jpg">
+            <input type="hidden" name="avatar">
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" placeholder="用户名" type="text" name="name">
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="昵称" type="text" name="nickname">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="Email" value="" name="email">
+          </div>
+          <div class="form-group">
+          <input class="form-control" placeholder="密码" type="password" name="password" id="id_password">
+          </div>
+          <div class="form-group">
+          <input class="form-control" placeholder="确认密码" type="password" name="password_confirmation" id="id_password_confirmation">
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="验证码" name="captcha" type="text" style="width: 50%;display: inline-block;margin-right: 10px;" >
+            <img class="rucaptcha-image" src="{{ captcha_image }}" alt="Rucaptcha">
+            <input type="hidden" name="captcha_key" value="{{ captcha_key }}">
+          </div>
+          <div class="form-group">
+            <input type="submit" name="submit" value="提交注册信息" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer-js %}
+<!-- jQuery Validation -->
+<script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
+<script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+<script>
+$("form").validate({
+  rules: {
+    name: "required",
+    nickname: "required",
+    password: "required",
+    password_confirmation: {equalTo: "#id_password"},
+    captcha: "required",
+    avatar: {
+      required: true,
+      url: true
+    }
+  }
+});
+</script>
+
+<!-- qiniu upload image -->
+<script src="{% static 'plupload/plupload.full.min.js' %}"></script>
+<script src="{% static 'qiniu/qiniu.js' %}"></script>
+<script src="{% static 'web/js/qiniu-custom.js' %}"></script>
+<script>
+getQiniuUploader({
+  browse_button: 'pickfiles',
+  container: 'pickfiles_container',
+  drop_element: 'pickfiles_container',
+  FileUploaded: function(up, file, info) {
+     var domain = up.getOption('domain');
+     var res = JSON.parse(info);
+     var sourceLink = domain + res.key; //获取上传成功后的文件的Url
+     $('form input[name="avatar"]').val(sourceLink).valid();
+     $('#pickfiles').attr("src", sourceLink).show();
+  }
+});
+</script>
+
+{% endblock %}
