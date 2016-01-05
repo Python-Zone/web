@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for PythonZone project.
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Third Party Apps
     'compressor',
+    'captcha',
     # My Apps
     'web',
     'users',
@@ -129,7 +131,7 @@ STATICFILES_FINDERS = (
 
 COMPRESS_ENABLED = True
 
-LOGIN_URL = '/admin/login'
+LOGIN_URL = '/users/signin/'
 
 # custom user model
 AUTH_USER_MODEL = 'users.User'
@@ -140,6 +142,13 @@ WEIXIN = {
     "WEIXIN_APP_ID": "",
     "WEIXIN_APP_SECRET": "",
     "WEIXIN_ENCODING_AES_KEY": ""
+}
+
+# 七牛开发者key
+QINIU_CONFIG = {
+    "ACCESS_KEY": "",
+    "SECRET_KEY": "",
+    "BUCKET": ""
 }
 
 ## Import local settings

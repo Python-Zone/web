@@ -20,7 +20,20 @@
         <li {% ifequal active_nav "sites" %}class="active"{% endifequal %}><a href="/sites/">酷站</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li {% ifequal active_nav "about" %}class="active"{% endifequal %}><a href="#">关于本站</a></li>
+      {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="/users/{{ user.name }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.name }} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/users/{{ user.name }}/">我的主页</a></li>
+            <li><a href="/users/edit">个人设置</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/users/signout">退出</a></li>
+          </ul>
+        </li>
+      {% else %}
+        <li><a href="/users/signup/">注册</a></li>
+        <li><a href="/users/signin/">登录</a></li>
+      {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

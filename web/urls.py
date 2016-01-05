@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from topics import views
+from topics import views as topics_views
+from . import views
 
 urlpatterns = [
-    url(r'^$', views.topic_list, name="index"),
+    url(r'^$', topics_views.topic_list, name="index"),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^captcha/', include('captcha.urls')),
+    url(r'^qiniu/uptoken/', views.qiniu_uptoken),
 
+
+    url(r'^users/', include('users.urls')),
     url(r'^topics/', include('topics.urls')),
     url(r'^wiki/', include('wiki.urls')),
     url(r'^jobs/', include('jobs.urls')),
