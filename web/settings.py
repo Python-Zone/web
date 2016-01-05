@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'compressor',
     # My Apps
     'web',
+    'users',
     'topics',
     'wiki',
     'jobs',
@@ -129,6 +130,9 @@ STATICFILES_FINDERS = (
 COMPRESS_ENABLED = True
 
 LOGIN_URL = '/admin/login'
+
+# custom user model
+AUTH_USER_MODEL = 'users.User'
 
 # wechat config
 WEIXIN = {
