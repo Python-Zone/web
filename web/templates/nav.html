@@ -22,7 +22,7 @@
       <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="/users/{{ user.name }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.name }} <span class="caret"></span></a>
+          <a href="/users/{{ user.name }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="avatar-24" src="{{ user.avatar }}"/>{{ user.name }} <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/users/{{ user.name }}/">我的主页</a></li>
             <li><a href="/users/edit">个人设置</a></li>

@@ -4,27 +4,17 @@
 <div class="row">
   <div class="col-md-9">
 
-    <div id="sections" class="panel panel-default">
-      <div class="panel-heading">节点导航</div>
-      <div class="panel-body">
-        <div class="row node-list">
-          {% for section in sections %}
-          <div class="node media">
-            <label class="media-left">{{ section.name }}</label>
-            <span class="nodes media-body">
-                  {% for node in section.nodes %}
-                  <span class="name"><a title="{{ node.name }}" href="/topics/node{{ node.id }}/">{{ node.name }}</a></span>
-                  {% endfor %}
-            </span>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div><!--#sections-->
-
     <div class="topics panel panel-default">
       <div class="panel-heading clearfix">
-          最新文章
+        <div class="node-info">
+          <div class="name">
+            <strong>{{ node.name }}</strong>
+          </div>
+          <div class="summary">
+            <p>{{ node.desc }}</p>
+
+          </div>
+        </div>
       </div>
 
       <div class="panel-body">

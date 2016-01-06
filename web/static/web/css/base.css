@@ -13,13 +13,59 @@ hr {
     height: 48px;
     border-radius: 2px;
 }
+.avatar-24 {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    margin: -4px 4px;
+}
 .topics .topic .info {
     color: #aaa;
     font-size: 12px;
     margin-top: 10px;
 }
+.topics .topic .info .node {
+    padding: 1px 5px;
+    color: #778087;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+.topics .node-info .name strong {
+    font-weight: bold;
+    color: #666;
+    text-align: left;
+    font-size: 16px;
+    padding-bottom: 10px;
+}
+.topics .node-info .summary {
+    color: #888;
+    font-size: 13px;
+}
+.topics .node-info .summary p {
+    margin: 6px 0 0 0;
+}
 .pagination {
     margin:0;
+}
+
+
+.node-list .node .media-left {
+    min-width: 100px;
+}
+.node-list .node label {
+    font-weight: normal;
+    color: #aaa;
+    text-align: center;
+}
+.node-list .node .name {
+    margin-bottom: 10px;
+    width: 100px;
+    display: block;
+    float: left;
+    text-align: left;
+}
+.node-list .node .name a:link, .node-list .node .name a:visited {
+    color: #333;
 }
 
 .site {
