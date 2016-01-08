@@ -1,11 +1,14 @@
 from django.shortcuts import render
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Topic, Section, Node
 # Create your views here.
+from users.util import login_required
+from .forms import TopicForm
 
 
 def topic_list(request):
@@ -32,8 +35,30 @@ def topic_list(request):
     }))
 
 
-def topic(request):
-    return render_to_response('index.html', RequestContext(request, {}))
+@login_required
+def topic_add(request):
+    if request.method == 'GET':
+        return render_to_response('topics/topic_add.html', RequestContext(request, {
+            "sections": Section.objects.order_by('-weight')
+        }))
+    elif request.method == 'POST':
+        user = request.user
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.user = user
+            topic.save()
+
+        return redirect(reverse('users.user_home', name=user.name))
+
+
+def topic_detail(request, id_):
+    topic = get_object_or_404(Topic, pk=id_)
+
+    return render_to_response('topics/topic.html', RequestContext(request, {
+        "topic": topic,
+        "active_nav": "topics"
+    }))
 
 
 def node_list(request, id_):

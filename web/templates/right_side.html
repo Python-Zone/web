@@ -1,4 +1,8 @@
-
+    {% if user.is_authenticated %}
+    <div class="panel panel-default">
+        <a class="btn btn-primary topics-add-btn" href="/topics/add/">发布新话题</a>
+    </div>
+    {% endif %}
 
     <div class="panel panel-default">
       <div class="panel-heading">Python 的设计哲学</div>

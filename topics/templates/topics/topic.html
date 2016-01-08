@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-9">
+
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="node-info">
+          <div class="name">
+            <strong>{{ topic.title }}</strong>
+          </div>
+            <div class="info">
+              {% if topic.node %}
+              <a class="node" href="/topics/node{{ topic.node.id }}">{{ topic.node.name }}</a>
+              •
+              {% endif %}
+              <span>{{ topic.user.name }}</span>
+              •
+              <span>发布于{{ topic.publish_time | date:"Y-m-d"}}</span>
+            </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        {{ topic.content }}
+      </div>
+
+      <div class="panel-footer clearfix">
+      </div>
+
+    </div><!--.topics-->
+
+  </div><!--.col-md-9-->
+
+  <div class="sidebar col-md-3">
+  {% include "right_side.html" %}
+  </div><!--.sidebar .col-md-3-->
+
+</div><!--.row-->
+{% endblock %}

@@ -31,18 +31,32 @@
         {% for item in topics %}
         <div class="topic media">
           <div class="avatar media-left">
-            <img class="media-object avatar-48" src="{{ item.avatar | default:'http://jbcdn2.b0.upaiyun.com/2012/02/python-logo.png' }}" alt="">
+            {% if item.avatar %}
+            <img class="media-object avatar-48" src="{{ item.avatar }}" alt="">
+            {% elif item.user %}
+            <img class="media-object avatar-48" src="{{ item.user.avatar }}" alt="">
+            {% else %}
+            <img class="media-object avatar-48" src="http://jbcdn2.b0.upaiyun.com/2012/02/python-logo.png" alt="">
+            {% endif %}
           </div>
           <div class="infos media-body">
             <div class="title media-heading">
+              {% if item.url %}
               <a target="_blank" href="{{ item.url }}">{{ item.title }}</a>
+              {% else %}
+              <a href="{% url 'topics.topic_detail' item.id %}">{{ item.title }}</a>
+              {% endif %}
             </div>
             <div class="info">
               {% if item.node %}
               <a class="node" href="/topics/node{{ item.node.id }}">{{ item.node.name }}</a>
               •
               {% endif %}
-              <span>{{ item.author }}</span>
+                {% if item.user %}
+                  <span><a href="#">{{ item.user.name }}</a></span>
+                {% else %}
+                  <span>{{ item.author }}</span>
+                {% endif %}
               •
               <span>发布于{{ item.publish_time | date:"Y-m-d"}}</span>
             </div>

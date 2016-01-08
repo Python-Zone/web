@@ -8,9 +8,10 @@ from django.conf import settings
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 from web.util import check_captcha
+from topics.models import Topic
 from .forms import UserForm
 from .models import User
-
+from .util import login_required
 
 
 def signup(request):
@@ -60,7 +61,7 @@ def signin(request):
             user = authenticate(name=params.get('name', None), password=params.get('password', None))
             if user and user.is_active:
                 login(request, user)
-                return redirect('users.user', name=user.name)
+                return redirect('users.user_home', name=user.name)
 
         return redirect('users.signin')
 
@@ -70,5 +71,25 @@ def signout(request):
     return redirect('%s?next=/' % settings.LOGIN_URL)
 
 
-def user(request, name=None):
-    return redirect('index')
+@login_required
+def user_home(request, name=None):
+    me = request.user
+    topics = Topic.objects.filter(user=me)
+    return render_to_response('users/user.html', RequestContext(request, {
+        "active_nav": "",
+        "user": me,
+        "active_tab": "topics",
+        "topics": topics
+    }))
+
+
+@login_required
+def user_replies(request, name=None):
+    me = request.user
+    topics = Topic.objects.filter(user=me)
+    return render_to_response('users/user.html', RequestContext(request, {
+        "active_nav": "",
+        "user": me,
+        "active_tab": "replies",
+        "topics": topics
+    }))

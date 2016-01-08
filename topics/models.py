@@ -1,31 +1,60 @@
 # -*- coding: utf-8 -*-
 __author__ = 'yijingping'
+import time
 from django.db import models
+
+
+def get_default_uniqueid():
+    return str(long(time.time() * 1000000))
 
 
 class Topic(models.Model):
     # 抓取文章所需关键字
-    uniqueid = models.CharField(unique=True, max_length=100, verbose_name='url的md5值')
-    url = models.CharField(max_length=500, verbose_name='文章的url')
-    site = models.CharField(max_length=200, verbose_name='来源网站')
-    originid = models.CharField(max_length=200, verbose_name='来源id')
-    avatar = models.CharField(max_length=500, verbose_name='缩略图地址')
-
-    node = models.ForeignKey('Node', default=8, verbose_name='所属节点') # 默认是8 文章节点
-    title = models.CharField(max_length=200, verbose_name='标题')
-    author = models.CharField(max_length=50, verbose_name='作者')
+    uniqueid = models.CharField(unique=True, max_length=100, default=get_default_uniqueid, verbose_name='url的md5值')
+    url = models.CharField(max_length=500, default='', verbose_name='文章的url')
+    site = models.CharField(max_length=200, default='', verbose_name='来源网站')
+    originid = models.CharField(max_length=200, default='', verbose_name='来源id')
+    avatar = models.CharField(max_length=500, default='', verbose_name='缩略图地址')
+    author = models.CharField(max_length=50, default='', verbose_name='作者')
     abstract = models.TextField(default='', verbose_name='文章简介')
+
+    # 发布的文章需要的信息
+    title = models.CharField(max_length=200, verbose_name='标题')
+    node = models.ForeignKey('Node', default=8, verbose_name='所属节点') # 默认是8 文章节点
+    user = models.ForeignKey('users.User', null=True, related_name='my_topics', verbose_name='作者')
     content = models.TextField(default='', verbose_name='文章内容')
+    source = models.TextField(default='', verbose_name='markdown原格式')
     tags = models.CharField(default='', max_length=50, verbose_name='文章标签,以|分割')
-    publish_time = models.DateTimeField(verbose_name='发布时间')
+    publish_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    # 回复条数
+    replies_count = models.IntegerField(default=0, verbose_name='回复条数')
+    last_reply_user = models.ForeignKey('users.User', null=True, related_name='my_replied_topics', verbose_name='最后回复人')
+    reply_time = models.DateTimeField(null=True, verbose_name='最后回复时间')
 
     def __unicode__(self):
         return self.title
 
     class Meta:
         verbose_name_plural = "文章"
+
+
+class Replay(models.Model):
+    topic = models.ForeignKey('Topic', verbose_name='回复的文章')
+    user = models.ForeignKey('users.User', verbose_name='回复人')
+    content = models.TextField(default='', verbose_name='文章内容')
+    source = models.TextField(default='', verbose_name='markdown原格式')
+    status = models.IntegerField(default=1, verbose_name="是否显示")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __unicode__(self):
+        return self.content
+
+    class Meta:
+        verbose_name_plural = "回复"
 
 
 class Section(models.Model):

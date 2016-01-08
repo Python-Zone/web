@@ -13,6 +13,12 @@ hr {
     height: 48px;
     border-radius: 2px;
 }
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 4px;
+    border: 1px solid #EEEEEE;
+}
 .avatar-24 {
     width: 24px;
     height: 24px;
@@ -43,6 +49,9 @@ hr {
 }
 .topics .node-info .summary p {
     margin: 6px 0 0 0;
+}
+.topics-add-btn {
+    width: 100%;
 }
 .pagination {
     margin:0;
@@ -105,3 +114,75 @@ hr {
     width: 80px;
     height: 80px;
 }
+
+.level {
+    text-align: center;
+    margin-top: 6px;
+}
+.level span {
+    background: #ADD0FF;
+    color: #4A5E9E;
+    border-radius: 2px;
+    padding: 2px 4px;
+}
+
+.sidebar .profile .item {
+    margin-bottom: 5px;
+}
+.sidebar .profile .number {
+    color: #999;
+}
+.sidebar .profile .counts {
+    color: #999;
+}
+.sidebar .profile .counts span {
+    color: #666;
+}
+
+.sidebar .profile .follow-info {
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.sidebar .profile .follow-info a {
+    display: block;
+    text-decoration: none;
+}
+.sidebar .profile .follow-info a.counter {
+    font-size: 32px;
+    color: #356DD0;
+}
+.sidebar .profile .follow-info a.text {
+    color: #999;
+}
+.profile-tabs-content {
+    border-radius: 0 0 4px 4px;
+    border-top: none;
+}
+
+/** start topic add */
+.topic-add-form {
+
+}
+.topic-add-form select {
+    border: none;
+}
+.topic-add-form textarea {
+    height: 400px;
+}
+
+
+.bootstrap-select .btn{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid #D5DCE1;
+    border-radius: 0;
+}
+.bootstrap-select .dropdown-menu {
+    margin: -1px 0 0 0;
+    border-radius: 0 0 4px 4px;
+}
+/** end topic add */
