@@ -49,7 +49,7 @@ def topic_add(request):
             topic.user = user
             topic.save()
 
-        return redirect(reverse('users.user_home', name=user.name))
+        return redirect(reverse('users.user_home', kwargs={"name": user.name}))
 
 
 def topic_detail(request, id_):

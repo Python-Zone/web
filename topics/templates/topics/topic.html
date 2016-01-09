@@ -4,21 +4,20 @@
 <div class="row">
   <div class="col-md-9">
 
-    <div class="topics panel panel-default">
+    <div class="topic-detail panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="node-info">
-          <div class="name">
-            <strong>{{ topic.title }}</strong>
+        <div class="media-body">
+          <h1 class="media-heading">{{ topic.title }}</h1>
+          <div class="info">
+            <a class="node" href="{% url 'topics.node_list' topic.node.id %}">{{ topic.node.name }}</a>
+             ·
+            <a data-author="true" href="">{{ topic.user.name }}</a>
+             ·
+            于 <span>{{ topic.publish_time }}</span> 发布
           </div>
-            <div class="info">
-              {% if topic.node %}
-              <a class="node" href="/topics/node{{ topic.node.id }}">{{ topic.node.name }}</a>
-              •
-              {% endif %}
-              <span>{{ topic.user.name }}</span>
-              •
-              <span>发布于{{ topic.publish_time | date:"Y-m-d"}}</span>
-            </div>
+        </div>
+        <div class="avatar media-right">
+          <a href="#"><img class="media-object avatar-48" src="{{ topic.user.avatar }}" alt=""></a>
         </div>
       </div>
 
@@ -27,6 +26,12 @@
       </div>
 
       <div class="panel-footer clearfix">
+        {% if topic.user.id == user.id %}
+        <span class="pull-right opts">
+          <a class="fa fa-pencil" title="修改本帖" href="{% url 'topics.topic_edit' topic.id %}"></a>
+          <a class="fa fa-trash" title="删除本帖" href="{% url 'topics.topic_delete' topic.id %}"></a>
+        </span>
+        {% endif %}
       </div>
 
     </div><!--.topics-->

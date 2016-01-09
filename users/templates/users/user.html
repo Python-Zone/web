@@ -55,11 +55,17 @@
         <li {% ifequal active_tab "following" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/following">正在关注</a></li>
         <li {% ifequal active_tab "followers" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/followers">关注者</a></li></ul>
 
-      <div class="panel panel-default profile-tabs-content">
-          <ul class="list-group recent-replies">
+      <div class="panel panel-default profile-tabs-content recent-topics">
+          <ul class="list-group">
             {% for item in topics %}
               <li class="list-group-item">
-                <a target="_blank" href="{% url 'topics.topic_detail' item.id  %}">[{{ item.node.name }}] {{ item.title }}</a>
+                <div class="title">
+                  <a  href="{% url 'topics.topic_detail' item.id  %}">{{ item.title }}</a>
+                </div>
+                <div class="info">
+                  <span class="node"><a class="node" href="{% url 'topics.node_list' item.node.id %}">{{ item.node.name }}</a></span>
+                  <span class="counter">0 个赞 • 1 条回复</span>
+                </div>
               </li>
             {% endfor %}
           </ul>
