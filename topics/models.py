@@ -9,6 +9,12 @@ def get_default_uniqueid():
 
 
 class Topic(models.Model):
+    STATUS_SHOW = 1
+    STATUS_DELETE = 2
+    STATUS_CHOICES = (
+        (STATUS_SHOW, '显示'),
+        (STATUS_DELETE, '删除')
+    )
     # 抓取文章所需关键字
     uniqueid = models.CharField(unique=True, max_length=100, default=get_default_uniqueid, verbose_name='url的md5值')
     url = models.CharField(max_length=500, default='', verbose_name='文章的url')
@@ -28,6 +34,7 @@ class Topic(models.Model):
     publish_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+    status = models.IntegerField(default=STATUS_SHOW, choices=STATUS_CHOICES, verbose_name="是否显示")
 
     # 回复条数
     replies_count = models.IntegerField(default=0, verbose_name='回复条数')
@@ -42,6 +49,12 @@ class Topic(models.Model):
 
 
 class Replay(models.Model):
+    STATUS_SHOW = 1
+    STATUS_DELETE = 2
+    STATUS_CHOICES = (
+        (STATUS_SHOW, '显示'),
+        (STATUS_DELETE, '删除')
+    )
     topic = models.ForeignKey('Topic', verbose_name='回复的文章')
     user = models.ForeignKey('users.User', verbose_name='回复人')
     content = models.TextField(default='', verbose_name='文章内容')

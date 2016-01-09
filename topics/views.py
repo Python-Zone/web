@@ -13,7 +13,7 @@ from .forms import TopicForm
 
 def topic_list(request):
     params = request.GET.copy()
-    _obj_list = Topic.objects.all().order_by('-publish_time')
+    _obj_list = Topic.objects.filter(status=Topic.STATUS_SHOW).order_by('-publish_time')
 
     paginator = Paginator(_obj_list, 20)  # Show 25 contacts per page
 
@@ -38,8 +38,10 @@ def topic_list(request):
 @login_required
 def topic_add(request):
     if request.method == 'GET':
+        form = TopicForm(initial={"node": "", "title": "", "content": ""})
         return render_to_response('topics/topic_add.html', RequestContext(request, {
-            "sections": Section.objects.order_by('-weight')
+            "sections": Section.objects.order_by('-weight'),
+            "form": form
         }))
     elif request.method == 'POST':
         user = request.user
@@ -52,9 +54,39 @@ def topic_add(request):
         return redirect(reverse('users.user_home', kwargs={"name": user.name}))
 
 
-def topic_detail(request, id_):
-    topic = get_object_or_404(Topic, pk=id_)
+@login_required
+def topic_edit(request, id_):
+    user = request.user
+    topic = get_object_or_404(Topic, pk=id_, user=user, status=Topic.STATUS_SHOW)
+    if request.method == 'GET':
+        form = TopicForm(instance=topic)
+        return render_to_response('topics/topic_add.html', RequestContext(request, {
+            "sections": Section.objects.order_by('-weight'),
+            "form": form
+        }))
+    elif request.method == 'POST':
+        form = TopicForm(request.POST, instance=topic)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.user = user
+            topic.save()
+        print form.errors
+        return redirect(reverse('users.user_home', kwargs={"name": user.name}))
 
+
+@login_required
+def topic_delete(request, id_):
+    user = request.user
+    topic = get_object_or_404(Topic, pk=id_, user=user, status=Topic.STATUS_SHOW)
+    if topic:
+        topic.status = Topic.STATUS_DELETE
+        topic.save()
+
+    return redirect(reverse('users.user_home', kwargs={"name": user.name}))
+
+
+def topic_detail(request, id_):
+    topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
     return render_to_response('topics/topic.html', RequestContext(request, {
         "topic": topic,
         "active_nav": "topics"

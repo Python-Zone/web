@@ -74,7 +74,7 @@ def signout(request):
 @login_required
 def user_home(request, name=None):
     me = request.user
-    topics = Topic.objects.filter(user=me)
+    topics = Topic.objects.filter(user=me, status=Topic.STATUS_SHOW)
     return render_to_response('users/user.html', RequestContext(request, {
         "active_nav": "",
         "user": me,

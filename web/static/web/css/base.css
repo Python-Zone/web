@@ -231,3 +231,10 @@ hr {
     margin-bottom: 8px;
 }
 
+/** start ckeditor */
+.django-ckeditor-widget {
+    width: 100%;
+}
+
+/*  end ckeditor **/
+

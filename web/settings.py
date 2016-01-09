@@ -41,6 +41,9 @@ INSTALLED_APPS = (
     # Third Party Apps
     'compressor',
     'captcha',
+    'ckeditor',
+    'ckeditor_uploader',
+    #'ckeditor_uploader',
     # My Apps
     'web',
     'users',
@@ -76,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -148,10 +152,58 @@ WEIXIN = {
 QINIU_CONFIG = {
     "ACCESS_KEY": "",
     "SECRET_KEY": "",
-    "BUCKET": ""
+    "BUCKET": "",
+    "DOMAIN":""
+}
+QINIU_ACCESS_KEY = QINIU_CONFIG['ACCESS_KEY']
+QINIU_SECRET_KEY = QINIU_CONFIG['SECRET_KEY']
+QINIU_BUCKET_NAME = QINIU_CONFIG['BUCKET']
+QINIU_BUCKET_DOMAIN = QINIU_CONFIG['DOMAIN']
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'
+# 富文本编辑器ckeditor配置
+CKEDITOR_CONFIGS = {
+    'default': {
+        'language': 'zh-cn',
+        'skin': 'moono',
+        'toolbar_YouCustomToolbarConfig': [
+            {'name': 'document', 'items': ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-',
+                                           'Link', 'Image', 'Table', '-', 'CodeSnippet','-', 'Source', 'Preview', 'Maximize']
+            }
+        ],
+        'toolbar': 'YouCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        'height': 300,
+        'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join(
+            [
+                # you extra plugins here
+                'div',
+                'autolink',
+                'autoembed',
+                'embedsemantic',
+                'autogrow',
+                # 'devtools',
+                'widget',
+                'lineutils',
+                'clipboard',
+                'dialog',
+                'dialogui',
+                'elementspath',
+                'codesnippet'
+            ])
+    }
 }
 
-
+MEDIA_ROOT = 'media'
+MEDIA_URL = '/media/'
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_BROWSE_SHOW_DIRS = True
+#CKEDITOR_RESTRICT_BY_USER = True
 ## Import local settings
 try:
     from local_settings import *
