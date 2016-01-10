@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load compress %}
 {% block header_css %}
 <link href="{% static 'bootstrap-select/css/bootstrap-select.css' %}" rel="stylesheet">
 {% endblock %}
@@ -39,15 +40,17 @@
 {% endblock %}
 
 {% block footer-js %}
-<script src="{% static 'bootstrap-select/js/bootstrap-select.js' %}"></script>
-<script src="{% static 'bootstrap-select/js/i18n/defaults-zh_CN.js' %}"></script>
 <!-- ckeditor -->
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% compress js %}
+<script src="{% static 'bootstrap-select/js/bootstrap-select.js' %}"></script>
+<script src="{% static 'bootstrap-select/js/i18n/defaults-zh_CN.js' %}"></script>
 <!-- jQuery Validation -->
 <script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
 <script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
 <script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+{% endcompress %}
 <script>
 $("form").validate({
   ignore: "",

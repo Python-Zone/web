@@ -73,11 +73,9 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     {% endcompress %}
-    {% compress js %}
     {% block footer-js %}
 
     {% endblock %}
-    {% endcompress %}
 
   <script>
     window.setTimeout(function() {
