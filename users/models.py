@@ -9,7 +9,7 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=30, unique=True)
     #password = models.CharField(max_length=128)
     nickname = models.CharField(max_length=100)
-    email = models.CharField(default='', blank=True, null=True, max_length=100)
+    email = models.CharField(unique=True, null=True, max_length=100)
     avatar = models.CharField(default='', blank=True, null=True, max_length=200)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

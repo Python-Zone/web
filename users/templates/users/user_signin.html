@@ -18,7 +18,7 @@
           </div>
           <div class="form-group">
             <input class="form-control" placeholder="验证码" name="captcha" type="text" style="width: 50%;display: inline-block;margin-right: 10px;" >
-            <img class="rucaptcha-image" src="{{ captcha_image }}" alt="Rucaptcha">
+            <img class="captcha-image" src="{{ captcha_image }}" alt="Rucaptcha">
             <input type="hidden" name="captcha_key" value="{{ captcha_key }}">
           </div>
           <div class="form-group">
@@ -43,6 +43,13 @@ $("form").validate({
     password: "required",
     captcha: "required"
   }
+});
+// 刷新验证码
+$("form .captcha-image").click(function(){
+  $.get("/users/captcha/refresh/",function(data, status){
+    $("form .captcha-image").attr("src", data.captcha_image);
+    $("form input[name='captcha_key']").val(data.captcha_key);
+  });
 });
 </script>
 {% endblock %}

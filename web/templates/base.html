@@ -49,6 +49,12 @@
          {% block main %}
          <div id="page-wrapper">
             <div class="container">
+            {% for message in messages %}
+              <div class="flash-message alert alert-{{ message.tags }}  alert-dismissible" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+              </div>
+            {% endfor %}
              {% block main-content %}
 
              {% endblock %}
@@ -73,5 +79,10 @@
     {% endblock %}
     {% endcompress %}
 
+  <script>
+    window.setTimeout(function() {
+      //$(".flash-message").fadeOut(3000);
+    }, 0);
+  </script>
   </body>
 </html>

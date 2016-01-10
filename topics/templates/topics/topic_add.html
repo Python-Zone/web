@@ -50,10 +50,15 @@
 <script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
 <script>
 $("form").validate({
+  ignore: "",
   rules: {
     node: "required",
     title: "required",
-    content: "required"
+    content: function(textarea) {
+          CKEDITOR.instances[textarea.id].updateElement(); // update textarea
+          var editorcontent = textarea.value.replace(/<[^>]*>/gi, ''); // strip tags
+          return editorcontent.length === 0;
+        }
   }
 });
 </script>

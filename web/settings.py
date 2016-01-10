@@ -166,7 +166,7 @@ CKEDITOR_CONFIGS = {
         'language': 'zh-cn',
         'skin': 'moono',
         'toolbar_YouCustomToolbarConfig': [
-            {'name': 'document', 'items': ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-',
+            {'name': 'document', 'items': ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', 'Blockquote', '-',
                                            'Link', 'Image', 'Table', '-', 'CodeSnippet','-', 'Source', 'Preview', 'Maximize']
             }
         ],
@@ -204,6 +204,11 @@ MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_BROWSE_SHOW_DIRS = True
 #CKEDITOR_RESTRICT_BY_USER = True
+
+from django.contrib import messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
 ## Import local settings
 try:
     from local_settings import *

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -6,7 +7,8 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Topic, Section, Node
-# Create your views here.
+from django.contrib import messages
+from web.util import check_captcha, add_messages_from_form_errors
 from users.util import login_required
 from .forms import TopicForm
 
@@ -50,8 +52,14 @@ def topic_add(request):
             topic = form.save(commit=False)
             topic.user = user
             topic.save()
-
-        return redirect(reverse('users.user_home', kwargs={"name": user.name}))
+            messages.success(request, '帖子发布成功')
+            return redirect(reverse('topics.topic_detail', kwargs={"id_": topic.id}))
+        else:
+            add_messages_from_form_errors(request, form)
+            return render_to_response('topics/topic_add.html', RequestContext(request, {
+                "sections": Section.objects.order_by('-weight'),
+                "form": form
+            }))
 
 
 @login_required
@@ -70,18 +78,23 @@ def topic_edit(request, id_):
             topic = form.save(commit=False)
             topic.user = user
             topic.save()
-        print form.errors
-        return redirect(reverse('users.user_home', kwargs={"name": user.name}))
+            messages.success(request, '帖子编辑成功')
+            return redirect(reverse('topics.topic_detail', kwargs={"id_": topic.id}))
+        else:
+            add_messages_from_form_errors(request, form)
+            return render_to_response('topics/topic_add.html', RequestContext(request, {
+                "sections": Section.objects.order_by('-weight'),
+                "form": form
+            }))
 
 
 @login_required
 def topic_delete(request, id_):
     user = request.user
     topic = get_object_or_404(Topic, pk=id_, user=user, status=Topic.STATUS_SHOW)
-    if topic:
-        topic.status = Topic.STATUS_DELETE
-        topic.save()
-
+    topic.status = Topic.STATUS_DELETE
+    topic.save()
+    messages.success(request, '帖子已删除')
     return redirect(reverse('users.user_home', kwargs={"name": user.name}))
 
 

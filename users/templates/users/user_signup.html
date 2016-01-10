@@ -10,18 +10,18 @@
         <form class="simple_form " action="" method="post">
           {% csrf_token %}
           <div class="form-group avatar-upload" id="pickfiles_container">
-            <img id="pickfiles" src="/static/web/images/upload-avatar-default.jpg">
-            <input type="hidden" name="avatar">
+            <img id="pickfiles" src="{{ form.avatar.value | default:'/static/web/images/upload-avatar-default.jpg' }}">
+            <input class="form-control" type="hidden" name="avatar" value="{{ form.avatar.value }}">
           </div>
 
           <div class="form-group">
-            <input class="form-control" placeholder="用户名" type="text" name="name">
+            <input class="form-control" placeholder="用户名" type="text" name="name" value="{{ form.name.value }}">
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="昵称" type="text" name="nickname">
+            <input class="form-control" placeholder="昵称" type="text" name="nickname" value="{{ form.nickname.value }}">
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" placeholder="Email" value="" name="email">
+            <input type="email" class="form-control" placeholder="Email" name="email" value="{{ form.email.value }}">
           </div>
           <div class="form-group">
           <input class="form-control" placeholder="密码" type="password" name="password" id="id_password">
@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <input class="form-control" placeholder="验证码" name="captcha" type="text" style="width: 50%;display: inline-block;margin-right: 10px;" >
-            <img class="rucaptcha-image" src="{{ captcha_image }}" alt="Rucaptcha">
+            <img class="captcha-image" src="{{ captcha_image }}" alt="Rucaptcha">
             <input type="hidden" name="captcha_key" value="{{ captcha_key }}">
           </div>
           <div class="form-group">
@@ -49,8 +49,14 @@
 <script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
 <script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
 <script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+<!-- qiniu upload image -->
+<script src="{% static 'plupload/plupload.full.min.js' %}"></script>
+<script src="{% static 'qiniu/qiniu.js' %}"></script>
+<script src="{% static 'web/js/qiniu-custom.js' %}"></script>
 <script>
+// 表单验证
 $("form").validate({
+  ignore: "",
   rules: {
     name: "required",
     nickname: "required",
@@ -63,13 +69,14 @@ $("form").validate({
     }
   }
 });
-</script>
-
-<!-- qiniu upload image -->
-<script src="{% static 'plupload/plupload.full.min.js' %}"></script>
-<script src="{% static 'qiniu/qiniu.js' %}"></script>
-<script src="{% static 'web/js/qiniu-custom.js' %}"></script>
-<script>
+// 刷新验证码
+$("form .captcha-image").click(function(){
+  $.get("/users/captcha/refresh/",function(data, status){
+    $("form .captcha-image").attr("src", data.captcha_image);
+    $("form input[name='captcha_key']").val(data.captcha_key);
+  });
+});
+// 上传图片
 getQiniuUploader({
   browse_button: 'pickfiles',
   container: 'pickfiles_container',
