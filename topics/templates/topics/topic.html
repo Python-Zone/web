@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load compress %}
+{% load util %}
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">
@@ -14,7 +15,7 @@
              ·
             <a data-author="true" href="">{{ topic.user.name }}</a>
              ·
-            于 <span>{{ topic.publish_time }}</span> 发布
+            于 <span>{{ topic.publish_time | readable_datetime }}</span> 发布
           </div>
         </div>
         <div class="avatar media-right">
@@ -52,7 +53,7 @@
                 <a data-name="stone" href="{% url 'users.user' reply_user.name %}">{{ reply_user.name }}</a>
               </span> ·
               <span class="time">
-                <a class="reply-floor" href="#reply{{ forloop.counter }}">#{{ forloop.counter }}</a> · <abbr class="timeago" title="2016-01-08T17:33:54+08:00">2 天前</abbr>
+                <a class="reply-floor" href="#reply{{ forloop.counter }}">#{{ forloop.counter }}</a> · <abbr class="timeago" title="{{ item.create_time }}">{{ item.create_time | readable_datetime }}</abbr>
               </span>
               <span class="opts pull-right">
                   <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="285743" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
@@ -66,7 +67,7 @@
               {% if item.status == 1 %}
               {{ item.content | safe }}
               {% elif item.status == 2 %}
-                <p><strike>该回复已删除</strike></p>
+                <p style="text-decoration:line-through;">该回复已删除</p>
               {% endif %}
             </div>
           </div>

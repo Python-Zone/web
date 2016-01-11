@@ -27,7 +27,7 @@ class Topic(models.Model):
     # 发布的文章需要的信息
     title = models.CharField(max_length=200, verbose_name='标题')
     node = models.ForeignKey('Node', default=8, verbose_name='所属节点') # 默认是8 文章节点
-    user = models.ForeignKey('users.User', null=True, related_name='my_topics', verbose_name='作者')
+    user = models.ForeignKey('users.User', null=True, related_name='topics', verbose_name='作者')
     content = models.TextField(default='', verbose_name='文章内容')
     source = models.TextField(default='', verbose_name='markdown原格式')
     tags = models.CharField(default='', max_length=50, verbose_name='文章标签,以|分割')
@@ -56,7 +56,7 @@ class Reply(models.Model):
         (STATUS_DELETE, '删除')
     )
     topic = models.ForeignKey('Topic', related_name="replies", verbose_name='回复的文章')
-    user = models.ForeignKey('users.User', verbose_name='回复人')
+    user = models.ForeignKey('users.User', related_name='replies', verbose_name='回复人')
     content = models.TextField(default='', verbose_name='文章内容')
     source = models.TextField(default='', verbose_name='markdown原格式')
     status = models.IntegerField(default=1, verbose_name="是否显示")

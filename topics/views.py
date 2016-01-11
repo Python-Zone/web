@@ -178,7 +178,7 @@ def reply_delete(request, topic_id, reply_id):
 def node_list(request, id_):
     params = request.GET.copy()
     node = get_object_or_404(Node, pk=id_)
-    _obj_list = Topic.objects.filter(node=node).order_by('-publish_time')
+    _obj_list = Topic.objects.filter(node=node, status=Topic.STATUS_SHOW).order_by('-publish_time')
 
     paginator = Paginator(_obj_list, 20)  # Show 25 contacts per page
 

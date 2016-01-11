@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load util %}
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">
@@ -13,7 +13,7 @@
             <label class="media-left">{{ section.name }}</label>
             <span class="nodes media-body">
                   {% for node in section.nodes %}
-                  <span class="name"><a title="{{ node.name }}" href="/topics/node{{ node.id }}/">{{ node.name }}</a></span>
+                  <span class="name"><a title="{{ node.name }}" href="{% url 'topics.node_list' node.id %}">{{ node.name }}</a></span>
                   {% endfor %}
             </span>
           </div>
@@ -58,7 +58,7 @@
                   <span>{{ item.author }}</span>
                 {% endif %}
               •
-              <span>发布于{{ item.publish_time | date:"Y-m-d"}}</span>
+              <span>发布于{{ item.publish_time | readable_datetime}}</span>
             </div>
           </div>
           <div class="count media-right">

@@ -1,77 +1,28 @@
-{% extends "base.html" %}
-
-{% block main-content %}
-  <div class="row">
-    <div class="sidebar col-md-4" id="sidebar">
-      <div class="panel profile panel-default">
-        <div class="panel-body">
-          <div class="media">
-            <div class="avatar media-left">
-              <div class="image"><img class="media-object profile-avatar" src="{{ user.avatar }}" alt=""></div>
-              <div class="level"><span class="label label-info role">会员</span></div>
-            </div>
-            <div class="media-body">
-              <div class="item">
-                {{ user.name }} ({{ user.nickname }})
-            <span class="opts pull-right">
-            </span>
-              </div>
-              <div class="item number">
-                第 {{ user.id }} 位会员
-              </div>
-              <div class="item number">
-                <span title="注册日期">{{ user.create_time | date:'Y-m-d' }}</span>
-
-              </div>
-              <div class="item counts">
-                <span>0</span> 篇帖子 • <span>0</span> 条回帖
-              </div>
-            </div>
+{% extends "users/user_base.html" %}
+{% load util %}
+{% load paginator %}
+{% block user-tabs %}
+<div class="panel panel-default profile-tabs-content recent-topics">
+  <div class="panel-body">
+    <ul class="list-group">
+      {% for item in topics %}
+        <li class="list-group-item">
+          <div class="title">
+            {% if item.status == 1 %}
+            <a href="{% url 'topics.topic_detail' item.id  %}">{{ item.title }}</a>
+            {% else %}
+            <a href="#" style="text-decoration:line-through;">{{ item.title }}</a>
+            {% endif %}
           </div>
-          <div class="follow-info row">
-            <div class="col-sm-4 followers" data-login="yijingping">
-              <a class="counter" href="/yijingping/followers">0</a>
-              <a class="text" href="/yijingping/followers">关注者</a>
-            </div>
-            <div class="col-sm-4 following">
-              <a class="counter" href="/yijingping/following">1</a>
-              <a class="text" href="/yijingping/following">正在关注</a>
-            </div>
-            <div class="col-sm-4 stars">
-              <a class="counter" href="/yijingping/favorites">0</a>
-              <a class="text" href="/yijingping/favorites">收藏</a>
-            </div>
+          <div class="info">
+            <span class="node"><a class="node" href="{% url 'topics.node_list' item.node.id %}">{{ item.node.name }}</a></span>
+            <span class="counter">0 个赞 • 1 条回复</span>
           </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-8">
-      <ul class="nav nav-tabs">
-        <li {% ifequal active_tab "topics" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/">帖子</a></li>
-        <li {% ifequal active_tab "replies" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/replies">回帖</a></li>
-        <li {% ifequal active_tab "favorites" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/favorites">收藏</a></li>
-        <li {% ifequal active_tab "following" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/following">正在关注</a></li>
-        <li {% ifequal active_tab "followers" %}class="active"{% endifequal %}><a href="/users/{{ user.name }}/followers">关注者</a></li></ul>
-
-      <div class="panel panel-default profile-tabs-content recent-topics">
-          <ul class="list-group">
-            {% for item in topics %}
-              <li class="list-group-item">
-                <div class="title">
-                  <a  href="{% url 'topics.topic_detail' item.id  %}">{{ item.title }}</a>
-                </div>
-                <div class="info">
-                  <span class="node"><a class="node" href="{% url 'topics.node_list' item.node.id %}">{{ item.node.name }}</a></span>
-                  <span class="counter">0 个赞 • 1 条回复</span>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-
-      </div>
-    </div>
-
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="panel-footer">
+  {% load paginator %}{% paginator topics %}
   </div>
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends "users/user_base.html" %}
+{% load util %}
+{% load paginator %}
+{% block user-tabs %}
+<div class="panel panel-default profile-tabs-content recent-replies">
+  <div class="panel-body">
+    <ul class="list-group">
+      {% for item in replies %}
+        {% with item.topic as topic %}
+        <li class="list-group-item">
+          <div class="title">
+            {% if topic.status == 1 %}
+            <a href="{% url 'topics.topic_detail' topic.id  %}">{{ topic.title }}</a>
+            {% else %}
+            <a href="#" style="text-decoration:line-through;">{{ topic.title }}</a>
+            {% endif %}
+            <span class="info">at
+              <abbr class="timeago" title="{{ item.create_time }}">{{ item.create_time | readable_datetime }}</abbr>
+            </span>
+          </div>
+          <div class="info">
+            {% if item.status == 1 %}
+            {{ item.content | safe }}
+            {% else %}
+            <p style="text-decoration:line-through;">该回复已删除</p>
+            {% endif %}
+          </div>
+        </li>
+        {% endwith %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="panel-footer">
+  {% load paginator %}{% paginator replies %}
+  </div>
+{% endblock %}
