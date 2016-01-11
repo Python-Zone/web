@@ -2,7 +2,7 @@
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -64,8 +64,11 @@ def topic_add(request):
 
 @login_required
 def topic_edit(request, id_):
-    user = request.user
-    topic = get_object_or_404(Topic, pk=id_, user=user, status=Topic.STATUS_SHOW)
+    me = request.user
+    topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
+    user = topic.user
+    if not (me.id == user.id or me.is_admin):
+        raise Http404
     if request.method == 'GET':
         form = TopicForm(instance=topic)
         return render_to_response('topics/topic_add.html', RequestContext(request, {
@@ -76,7 +79,6 @@ def topic_edit(request, id_):
         form = TopicForm(request.POST, instance=topic)
         if form.is_valid():
             topic = form.save(commit=False)
-            topic.user = user
             topic.save()
             messages.success(request, '帖子编辑成功')
             return redirect(reverse('topics.topic_detail', kwargs={"id_": topic.id}))
@@ -90,8 +92,11 @@ def topic_edit(request, id_):
 
 @login_required
 def topic_delete(request, id_):
-    user = request.user
-    topic = get_object_or_404(Topic, pk=id_, user=user, status=Topic.STATUS_SHOW)
+    me = request.user
+    topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
+    user = topic.user
+    if not (me.id == user.id or me.is_admin):
+        raise Http404
     topic.status = Topic.STATUS_DELETE
     topic.save()
     messages.success(request, '帖子已删除')
@@ -132,11 +137,15 @@ def reply_add(request, topic_id):
                 "floor": topic.replies.count()
             }))
 
+
 @login_required
 def reply_edit(request, topic_id, reply_id):
-    user = request.user
+    me = request.user
     topic = get_object_or_404(Topic, pk=topic_id)
-    reply = get_object_or_404(Reply, pk=reply_id, user=user, status=Reply.STATUS_SHOW)
+    reply = get_object_or_404(Reply, pk=reply_id, status=Reply.STATUS_SHOW)
+    if not (me.id == reply.user.id or me.is_admin):
+        raise Http404
+
     if request.method == 'GET':
         form = ReplyForm(instance=reply)
         return render_to_response('topics/reply_edit.html', RequestContext(request, {
@@ -155,9 +164,11 @@ def reply_edit(request, topic_id, reply_id):
 
 @login_required
 def reply_delete(request, topic_id, reply_id):
-    user = request.user
+    me = request.user
     topic = get_object_or_404(Topic, pk=topic_id)
-    reply = get_object_or_404(Reply, pk=reply_id, user=user)
+    reply = get_object_or_404(Reply, pk=reply_id)
+    if not (me.id == reply.user.id or me.is_admin):
+        raise Http404
     reply.status = Reply.STATUS_DELETE
     reply.save()
     messages.success(request, '回帖删除成功')

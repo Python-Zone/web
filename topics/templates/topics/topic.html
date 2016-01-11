@@ -27,7 +27,7 @@
       </div>
 
       <div class="panel-footer clearfix">
-        {% if topic.user.id == user.id %}
+        {% if topic.user.id == user.id or user.is_admin %}
         <span class="pull-right opts">
           <a class="fa fa-pencil" title="修改本帖" href="{% url 'topics.topic_edit' topic.id %}"></a>
           <a class="fa fa-trash" title="删除本帖" onclick="return confirm('确定要删除这个帖子么？');"  href="{% url 'topics.topic_delete' topic.id %}"></a>
@@ -56,7 +56,7 @@
               </span>
               <span class="opts pull-right">
                   <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="285743" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
-                  {% if reply_user.id == user.id %}
+                  {% if reply_user.id == user.id or user.is_admin %}
                   <a class="edit fa fa-pencil" data-uid="2938" title="修改回帖" href="{% url 'topics.reply_edit' topic.id item.id %}"></a>
                   {% endif %}
                   <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
