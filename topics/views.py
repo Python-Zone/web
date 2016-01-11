@@ -132,6 +132,37 @@ def reply_add(request, topic_id):
                 "floor": topic.replies.count()
             }))
 
+@login_required
+def reply_edit(request, topic_id, reply_id):
+    user = request.user
+    topic = get_object_or_404(Topic, pk=topic_id)
+    reply = get_object_or_404(Reply, pk=reply_id, user=user, status=Reply.STATUS_SHOW)
+    if request.method == 'GET':
+        form = ReplyForm(instance=reply)
+        return render_to_response('topics/reply_edit.html', RequestContext(request, {
+            "topic": topic,
+            "reply": reply,
+            "form": form
+        }))
+    elif request.method == 'POST':
+        form = ReplyForm(request.POST, instance=reply)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.save()
+            messages.success(request, '回帖编辑成功')
+            return redirect(reverse('topics.topic_detail', kwargs={"id_": topic.id}))
+
+
+@login_required
+def reply_delete(request, topic_id, reply_id):
+    user = request.user
+    topic = get_object_or_404(Topic, pk=topic_id)
+    reply = get_object_or_404(Reply, pk=reply_id, user=user)
+    reply.status = Reply.STATUS_DELETE
+    reply.save()
+    messages.success(request, '回帖删除成功')
+    return redirect(reverse('topics.topic_detail', kwargs={"id_": topic.id}))
+
 
 def node_list(request, id_):
     params = request.GET.copy()

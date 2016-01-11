@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load compress %}
+{% block main-content %}
+<div class="row">
+  <div class="col-md-12">
+    <div id="reply" class="panel panel-default">
+      <div class="panel-heading">
+        修改回帖
+        <span class="pull-right"><a title="{{ topic.title }}" href="{% url 'topics.topic_detail' topic.id %}">{{ topic.title }}</a></span>
+      </div>
+      <div class="panel-body">
+        <form action="{% url 'topics.reply_edit' topic.id reply.id %}" method="post" class="simple_form">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.content }}
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary" style="padding-left: 60px;padding-right: 60px;" type="submit" value="保存">
+            <a class="pull-right btn btn-danger" onclick="return confirm('确定要删除此回复么？');" rel="nofollow" href="{% url 'topics.reply_delete' topic.id reply.id %}">删除</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div><!--.col-md-12-->
+
+</div><!--.row-->
+{% endblock %}
+
+
+{% block footer-js %}
+<!-- ckeditor -->
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% compress js %}
+<!-- jQuery Validation -->
+<script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
+<script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+{% endcompress %}
+<script>
+$(document).ready(function() {
+  $("form").validate({
+    ignore: "",
+    rules: {
+      content: {
+        required: function (textarea) {
+          CKEDITOR.instances[textarea.id].updateElement(); // update textarea
+          var editorcontent = textarea.value.replace(/<[^>]*>/gi, ''); // strip tags
+          return editorcontent.length === 0;
+        }
+      }
+    }
+  });
+});
+
+</script>
+
+{% endblock %}
