@@ -53,7 +53,7 @@
               •
               {% endif %}
                 {% if item.user %}
-                  <span><a href="#">{{ item.user.name }}</a></span>
+                  <span><a href="{% url 'users.user' item.user.name %}">{{ item.user.name }}</a></span>
                 {% else %}
                   <span>{{ item.author }}</span>
                 {% endif %}

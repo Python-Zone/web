@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'yijingping'
 from datetime import datetime
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
@@ -44,7 +44,7 @@ def signup(request):
                 if user and user.is_active:
                     login(request, user)
                     messages.success(request, "注册成功")
-                    return redirect('users.user_home', name=user.name)
+                    return redirect('users.user', name=user.name)
             else:
                 add_messages_from_form_errors(request, form)
         else:
@@ -78,7 +78,7 @@ def signin(request):
             if user and user.is_active:
                 login(request, user)
                 messages.success(request, "登录成功")
-                return redirect('users.user_home', name=user.name)
+                return redirect('users.user', name=user.name)
             else:
                 messages.error(request, "用户名或密码错误,亲重试")
         else:
@@ -103,13 +103,12 @@ def captcha_refresh(request):
     })
 
 
-@login_required
 def user_home(request, name=None):
-    me = request.user
-    topics = Topic.objects.filter(user=me, status=Topic.STATUS_SHOW)
+    user = get_object_or_404(User, name=name)
+    topics = Topic.objects.filter(user=user, status=Topic.STATUS_SHOW)
     return render_to_response('users/user.html', RequestContext(request, {
         "active_nav": "",
-        "user": me,
+        "user": user,
         "active_tab": "topics",
         "topics": topics
     }))
@@ -117,11 +116,11 @@ def user_home(request, name=None):
 
 @login_required
 def user_replies(request, name=None):
-    me = request.user
-    topics = Topic.objects.filter(user=me)
+    user = get_object_or_404(User, name=name)
+    topics = Topic.objects.filter(user=user)
     return render_to_response('users/user.html', RequestContext(request, {
         "active_nav": "",
-        "user": me,
+        "user": user,
         "active_tab": "replies",
         "topics": topics
     }))

@@ -95,7 +95,7 @@ def topic_delete(request, id_):
     topic.status = Topic.STATUS_DELETE
     topic.save()
     messages.success(request, '帖子已删除')
-    return redirect(reverse('users.user_home', kwargs={"name": user.name}))
+    return redirect(reverse('users.user', kwargs={"name": user.name}))
 
 
 def topic_detail(request, id_):

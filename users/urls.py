@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^signin/$', views.signin, name="users.signin"),
     url(r'^signout/$', views.signout, name="users.signout"),
     url(r'^captcha/refresh/$', views.captcha_refresh, name="users.captcha_refresh"),
-    url(r'^(?P<name>\w+)/$', views.user_home, name="users.user_home"),
+    url(r'^(?P<name>\w+)/$', views.user_home, name="users.user"),
     url(r'^(?P<name>\w+)/replies/$', views.user_replies, name="users.user_replies"),
 ]
