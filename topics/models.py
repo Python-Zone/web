@@ -48,14 +48,14 @@ class Topic(models.Model):
         verbose_name_plural = "文章"
 
 
-class Replay(models.Model):
+class Reply(models.Model):
     STATUS_SHOW = 1
     STATUS_DELETE = 2
     STATUS_CHOICES = (
         (STATUS_SHOW, '显示'),
         (STATUS_DELETE, '删除')
     )
-    topic = models.ForeignKey('Topic', verbose_name='回复的文章')
+    topic = models.ForeignKey('Topic', related_name="replies", verbose_name='回复的文章')
     user = models.ForeignKey('users.User', verbose_name='回复人')
     content = models.TextField(default='', verbose_name='文章内容')
     source = models.TextField(default='', verbose_name='markdown原格式')

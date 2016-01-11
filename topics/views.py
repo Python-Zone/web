@@ -2,15 +2,15 @@
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Topic, Section, Node
+from .models import Topic, Section, Node, Reply
 from django.contrib import messages
 from web.util import check_captcha, add_messages_from_form_errors
 from users.util import login_required
-from .forms import TopicForm
+from .forms import TopicForm, ReplyForm
 
 
 def topic_list(request):
@@ -100,10 +100,37 @@ def topic_delete(request, id_):
 
 def topic_detail(request, id_):
     topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
+    replies = Reply.objects.filter(topic=topic)
+    form = ReplyForm()
     return render_to_response('topics/topic.html', RequestContext(request, {
         "topic": topic,
-        "active_nav": "topics"
+        "active_nav": "topics",
+        "form": form,
+        "replies": replies
     }))
+
+
+@login_required
+def reply_add(request, topic_id):
+    user = request.user
+    topic = get_object_or_404(Topic, pk=topic_id)
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.topic = topic
+            reply.user = user
+            reply.save()
+            # 更新topic
+            topic.last_reply_user = user
+            topic.replies_count = topic.replies.count()
+            topic.reply_time = reply.create_time
+            topic.save()
+            return render_to_response('topics/reply.html', RequestContext(request, {
+                "topic": topic,
+                "reply": reply,
+                "floor": topic.replies.count()
+            }))
 
 
 def node_list(request, id_):

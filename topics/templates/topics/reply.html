@@ -1,0 +1,23 @@
+ {% with reply.user as reply_user %}
+ <div class="reply" id="reply{{ floor }}">
+    <div class="avatar"><a href="{% url 'users.user' reply_user.name %}"><img class="media-object avatar-48" src="{{ reply_user.avatar }}" alt=""></a></div>
+    <div class="infos">
+      <div class="info">
+        <span class="name">
+          <a data-name="stone" href="{% url 'users.user' reply_user.name %}">{{ reply_user.name }}</a>
+        </span> ·
+        <span class="time">
+          <a class="reply-floor" href="#reply{{ floor }}">#{{ floor }}</a> · <abbr class="timeago" title="2016-01-08T17:33:54+08:00">{{ reply.create_time }}</abbr>
+        </span>
+        <span class="opts pull-right">
+            <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="285743" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
+            <a class="edit fa fa-pencil" data-uid="2938" title="修改回帖" href="/topics/28661/replies/285743/edit"></a>
+            <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
+        </span>
+      </div>
+      <div class="contnent">
+        {{ reply.content | safe }}
+      </div>
+    </div>
+  </div>
+{% endwith %}

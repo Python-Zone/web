@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
+{% load compress %}
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">
@@ -34,7 +35,56 @@
         {% endif %}
       </div>
 
-    </div><!--.topics-->
+    </div><!--.topic-detail-->
+
+    <div id="replies" class="panel panel-default" data-last-floor="1">
+      <div class="total panel-heading">
+        共收到 <b>{{ topic.replies_count }}</b> 条回复
+      </div>
+      <div class="items panel-body">
+        {% for item in replies %}
+          {% with item.user as reply_user %}
+        <div class="reply" id="reply{{ forloop.counter }}">
+          <div class="avatar"><a href="{% url 'users.user' reply_user.name %}"><img class="media-object avatar-48" src="{{ reply_user.avatar }}" alt=""></a></div>
+          <div class="infos">
+            <div class="info">
+              <span class="name">
+                <a data-name="stone" href="{% url 'users.user' reply_user.name %}">{{ reply_user.name }}</a>
+              </span> ·
+              <span class="time">
+                <a class="reply-floor" href="#reply{{ forloop.counter }}">#{{ forloop.counter }}</a> · <abbr class="timeago" title="2016-01-08T17:33:54+08:00">2 天前</abbr>
+              </span>
+              <span class="opts pull-right">
+                  <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="285743" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
+                  {% if reply_user.id == user.id %}
+                  <a class="edit fa fa-pencil" data-uid="2938" title="修改回帖" href="/topics/28661/replies/285743/edit"></a>
+                  {% endif %}
+                  <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
+              </span>
+            </div>
+            <div class="contnent">
+              {{ item.content | safe }}
+            </div>
+          </div>
+        </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div> <!--#replies-->
+    <div id="reply" class="panel panel-default">
+      <div class="panel-heading">回帖</div>
+      <div class="panel-body">
+        <form action="{% url 'topics.reply_add' topic.id %}" method="post" class="simple_form">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.content }}
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary" style="padding-left: 60px;padding-right: 60px;" type="submit" value="提交回复">
+          </div>
+        </form>
+      </div>
+    </div>
 
   </div><!--.col-md-9-->
 
@@ -43,4 +93,50 @@
   </div><!--.sidebar .col-md-3-->
 
 </div><!--.row-->
+{% endblock %}
+
+
+{% block footer-js %}
+<!-- ckeditor -->
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% compress js %}
+<!-- jQuery Validation -->
+<script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
+<script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+{% endcompress %}
+<script>
+$(document).ready(function() {
+  $("form").validate({
+    ignore: "",
+    rules: {
+      content: {
+        required: function (textarea) {
+          CKEDITOR.instances[textarea.id].updateElement(); // update textarea
+          var editorcontent = textarea.value.replace(/<[^>]*>/gi, ''); // strip tags
+          return editorcontent.length === 0;
+        }
+      }
+    }
+  });
+
+  $("form").submit(function (ev) {
+    ev.preventDefault();
+    var frm = $(this);
+    if(! frm.valid()) return false;
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: frm.serialize(),
+      success: function (data) {
+        $("#replies .items").append(data);
+        CKEDITOR.instances['id_content'].setData('');
+      }
+    });
+  });
+});
+
+</script>
+
 {% endblock %}

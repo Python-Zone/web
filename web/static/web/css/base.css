@@ -249,3 +249,29 @@ hr {
 
 /*  end ckeditor **/
 
+/* reply */
+
+#replies .reply {
+    margin: 0 -15px;
+    padding: 10px 15px;
+    position: relative;
+    border-bottom: 1px solid #eee;
+    padding-left: 74px;
+}
+#replies .reply .avatar {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    text-align: center;
+}
+#replies .reply .info {
+    font-size: 12px;
+}
+#replies .reply .info .reply-floor {
+    color: #7AA87A;
+}
+#replies .info .opts a {
+    font-size: 13px;
+    margin-left: 5px;
+    color: #999;
+}

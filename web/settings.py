@@ -196,6 +196,41 @@ CKEDITOR_CONFIGS = {
                 'elementspath',
                 'codesnippet'
             ])
+    },
+    'reply': {
+        'language': 'zh-cn',
+        'skin': 'moono',
+        'toolbar_YouCustomToolbarConfig': [
+            {'name': 'document', 'items': ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', 'Blockquote', '-',
+                                           'Link', 'Image', 'Table', '-', 'CodeSnippet','-', 'Source', 'Preview', 'Maximize']
+            }
+        ],
+        'toolbar': 'YouCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        'height': 100,
+        'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join(
+            [
+                # you extra plugins here
+                'div',
+                'autolink',
+                'autoembed',
+                'embedsemantic',
+                'autogrow',
+                # 'devtools',
+                'widget',
+                'lineutils',
+                'clipboard',
+                'dialog',
+                'dialogui',
+                'elementspath',
+                'codesnippet'
+            ])
     }
 }
 

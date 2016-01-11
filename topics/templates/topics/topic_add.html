@@ -40,9 +40,6 @@
 {% endblock %}
 
 {% block footer-js %}
-<!-- ckeditor -->
-<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
-<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 {% compress js %}
 <script src="{% static 'bootstrap-select/js/bootstrap-select.js' %}"></script>
 <script src="{% static 'bootstrap-select/js/i18n/defaults-zh_CN.js' %}"></script>
@@ -51,37 +48,26 @@
 <script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
 <script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
 {% endcompress %}
+<!-- ckeditor -->
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 <script>
-$("form").validate({
-  ignore: "",
-  rules: {
-    node: "required",
-    title: "required",
-    content: function(textarea) {
+$(document).ready(function() {
+  $("form").validate({
+    ignore: "",
+    event: 'blur',
+    rules: {
+      node: "required",
+      title: "required",
+      content: {
+        required: function (textarea) {
           CKEDITOR.instances[textarea.id].updateElement(); // update textarea
           var editorcontent = textarea.value.replace(/<[^>]*>/gi, ''); // strip tags
           return editorcontent.length === 0;
         }
-  }
-});
-</script>
-
-<!-- qiniu upload image -->
-<script src="{% static 'plupload/plupload.full.min.js' %}"></script>
-<script src="{% static 'qiniu/qiniu.js' %}"></script>
-<script src="{% static 'web/js/qiniu-custom.js' %}"></script>
-<script>
-getQiniuUploader({
-  browse_button: 'pickfiles',
-  container: 'pickfiles_container',
-  drop_element: 'pickfiles_container',
-  FileUploaded: function(up, file, info) {
-     var domain = up.getOption('domain');
-     var res = JSON.parse(info);
-     var sourceLink = domain + res.key; //获取上传成功后的文件的Url
-     $('form input[name="avatar"]').val(sourceLink).valid();
-     $('#pickfiles').attr("src", sourceLink).show();
-  }
+      }
+    }
+  });
 });
 </script>
 
