@@ -12,9 +12,9 @@ from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 from django.contrib import messages
 from web.util import check_captcha, add_messages_from_form_errors
-from topics.models import Topic, Reply
+from topics.models import Topic, Reply, Favorite
 from .forms import UserForm
-from .models import User, Follow, Favorite
+from .models import User, Follow
 from .util import login_required
 
 
@@ -258,3 +258,32 @@ def user_unfollow(request, name):
         return JsonResponse({'ret': 1, 'message': '取消关注失败'})
     else:
         return JsonResponse({'ret': 0, 'message': '成功取消关注!'})
+
+
+def user_favorites(request, name):
+    context = {}
+    params = request.GET.copy()
+    user = get_object_or_404(User, name=name)
+    _obj_list = Favorite.objects.filter(user=user).order_by('-id')
+
+    paginator = Paginator(_obj_list, 10)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        favorites = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        favorites = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        favorites = paginator.page(paginator.num_pages)
+
+    context.update(common_info(request, request.user, user))
+    context.update( {
+        "active_nav": "",
+        "visited_user": user,
+        "active_tab": "favorites",
+        "favorites": favorites,
+        "params": params
+    })
+    return render_to_response('users/user_favorites.html', RequestContext(request, context))

@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^(?P<name>\w+)/replies/$', views.user_replies, name="users.user_replies"),
     url(r'^(?P<name>\w+)/following/$', views.user_following, name="users.user_following"),
     url(r'^(?P<name>\w+)/followers/$', views.user_followers, name="users.user_followers"),
+    url(r'^(?P<name>\w+)/favorites/$', views.user_favorites, name="users.user_favorites"),
 
     url(r'^(?P<name>\w+)/follow/$', views.user_follow, name="users.user_follow"),
     url(r'^(?P<name>\w+)/unfollow/$', views.user_unfollow, name="users.user_unfollow"),

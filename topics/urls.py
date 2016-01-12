@@ -16,5 +16,8 @@ urlpatterns = [
 
     url(r'^node(?P<id_>\d+)/$', views.node_list, name="topics.node_list"),
 
+    url(r'^(?P<topic_id>\d+)/favorite/$', views.topic_favorite, name="topics.topic_favorite"),
+    url(r'^(?P<topic_id>\d+)/unfavorite/$', views.topic_unfavorite, name="topics.topic_unfavorite"),
+
 
 ]

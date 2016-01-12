@@ -1,0 +1,32 @@
+<div id="topic-sidebar">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <a href="#" class="btn btn-block btn-move-page" data-type="top"><i class="fa fa-arrow-up"></i></a>
+      {% if user.is_authenticated %}
+      <div class="buttons">
+        <div class="group">
+          <div class="btn-group" role="group">
+            <a class="btn-favorite btn btn-default {% if is_favorite %}active{% endif %}" data-id="{{ topic.id }}" href="#">
+              <i class="fa fa-bookmark"></i>
+              <span> {% if is_favorite %}已收藏{% else %}收藏{% endif %}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <hr>
+      <div class="reply-buttons">
+        <div class="total">
+          共收到 <b>{{ topic.replies_count }}</b> 条回复
+        </div>
+        <a href="#reply" class="btn btn-success btn-block btn-focus-reply">参与回复</a>
+      </div>
+      <hr>
+      <div class="group opts">
+
+      </div>
+      <a href="#" class="btn btn-block btn-move-page" data-type="bottom"><i class="fa fa-arrow-down"></i></a>
+    </div>
+  </div>
+</div>

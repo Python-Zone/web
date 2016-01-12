@@ -96,3 +96,23 @@ class Node(models.Model):
 
     class Meta:
         verbose_name_plural = "节点"
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey('users.User', related_name='favorites', verbose_name='收藏者')
+    topic = models.ForeignKey('topics.Topic', related_name='favorites', verbose_name='帖子')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    @staticmethod
+    def is_favorite(user, topic):
+        try:
+            Favorite.objects.get(user=user, topic=topic)
+        except Favorite.DoesNotExist:
+            return False
+        else:
+            return True
+
+
+    class Meta:
+        verbose_name_plural = "收藏"
+        unique_together = ("user", "topic")

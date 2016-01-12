@@ -74,16 +74,6 @@ class Follow(models.Model):
         unique_together = ("from_user", "to_user")
 
 
-class Favorite(models.Model):
-    user = models.ForeignKey('User', related_name='favorites', verbose_name='收藏者')
-    topic = models.ForeignKey('topics.Topic', related_name='favorites', verbose_name='帖子')
-    create_time = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name_plural = "收藏"
-        unique_together = ("user", "topic")
-
-
 class Notification(models.Model):
     KIND_TOPIC_ADD = 1
     KIND_REPLY_ADD = 2

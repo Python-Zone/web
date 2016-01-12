@@ -4,12 +4,14 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, Http404
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Topic, Section, Node, Reply
+from .models import Topic, Section, Node, Reply, Favorite
 from django.contrib import messages
 from web.util import check_captcha, add_messages_from_form_errors
 from users.util import login_required
+from users.models import User
 from .forms import TopicForm, ReplyForm
 
 
@@ -104,14 +106,17 @@ def topic_delete(request, id_):
 
 
 def topic_detail(request, id_):
+    me = request.user
     topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
     replies = Reply.objects.filter(topic=topic)
     form = ReplyForm()
+    is_favorite = Favorite.is_favorite(me, topic)
     return render_to_response('topics/topic.html', RequestContext(request, {
         "topic": topic,
         "active_nav": "topics",
         "form": form,
-        "replies": replies
+        "replies": replies,
+        "is_favorite": is_favorite
     }))
 
 
@@ -198,3 +203,31 @@ def node_list(request, id_):
         "active_nav": "topics",
         "params": params
     }))
+
+
+
+
+@csrf_exempt
+@login_required
+def topic_favorite(request, topic_id):
+    me = request.user
+    topic = get_object_or_404(Topic, pk=topic_id)
+    try:
+        Favorite.objects.create(user=me, topic=topic)
+    except Exception as e:
+        return JsonResponse({'ret': 1, 'message': '不能重复收藏!'})
+    else:
+        return JsonResponse({'ret': 0, 'message': '收藏成功!'})
+
+
+@csrf_exempt
+@login_required
+def topic_unfavorite(request, topic_id):
+    me = request.user
+    topic = get_object_or_404(Topic, pk=topic_id)
+    try:
+        Favorite.objects.filter(user=me, topic=topic).delete()
+    except Exception as e:
+        return JsonResponse({'ret': 1, 'message': '取消收藏失败'})
+    else:
+        return JsonResponse({'ret': 0, 'message': '成功取消收藏!'})

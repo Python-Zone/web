@@ -10,6 +10,12 @@ abbr[title] {
     border-bottom: 0px;
     cursor: text;
 }
+.btn {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 5px 12px;
+    box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,0.15);
+}
 /* user */
 
 .profile-avatar {
@@ -278,6 +284,43 @@ abbr[title] {
     text-align: left;
     line-height: 100%;
     margin-bottom: 8px;
+}
+/* topic-sidebar */
+#topic-sidebar {
+    position: fixed;
+    width: 260px;
+}
+@media (min-width: 992px){
+    #topic-sidebar {
+        width: 240px;
+    }
+}
+@media (min-width: 1100px){
+    #topic-sidebar {
+        width: 260px;
+    }
+}
+#topic-sidebar a.btn-move-page {
+    color: #666;
+}
+#topic-sidebar .reply-buttons {
+    text-align: center;
+}
+#topic-sidebar .reply-buttons .total {
+    margin-bottom: 10px;
+}
+#topic-sidebar .buttons {
+    margin-top: 20px;
+}
+#topic-sidebar .group {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#topic-sidebar .btn-favorite.active {
+    color: #EB5424;
+}
+#topic-sidebar .btn-favorite {
+    color: #666;
 }
 /** start ckeditor */
 .django-ckeditor-widget {

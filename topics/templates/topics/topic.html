@@ -94,7 +94,7 @@
   </div><!--.col-md-9-->
 
   <div class="sidebar col-md-3">
-  {% include "right_side.html" %}
+  {% include "topics/topic_side.html" %}
   </div><!--.sidebar .col-md-3-->
 
 </div><!--.row-->
@@ -141,6 +141,44 @@ $(document).ready(function() {
       }
     });
   });
+  $(".btn-move-page").click(function(ev) {
+    var $self = $(this);
+    ev.preventDefault();
+    var type = $self.data("type");
+    if(type == "top"){
+      $("html, body").animate({ scrollTop: 0 }, 200);
+    }else if (type == "bottom"){
+      $("html, body").animate({ scrollTop: $(document).height() }, 200);
+    }
+  });
+  $(".btn-favorite").click(function(ev){
+    var $self = $(this);
+    ev.preventDefault();
+    var topic_id = $self.data("id");
+    var is_favorite = $self.hasClass("active");
+    if (is_favorite){
+      // 已经收藏,取消收藏
+      $.post('/topics/'+topic_id+'/unfavorite/', {}, function(data){
+          //alert(JSON.stringify(data));
+          if(data.ret == 0){
+            $self.removeClass("active");
+            $self.find("span").text("收藏");
+          }
+        }, 'json'
+    );
+    }else{
+      // 未关注,发起关注
+      $.post('/topics/'+topic_id+'/favorite/', {}, function(data){
+          //alert(JSON.stringify(data));
+          if(data.ret == 0){
+            $self.addClass("active");
+            $self.find("span").text("已收藏");
+          }
+        }, 'json'
+      );
+      }
+
+  });
 });
 
 function reply_at_who(floor, user_name){
@@ -148,7 +186,7 @@ function reply_at_who(floor, user_name){
              '<a href="#reply' + floor + '" class="at_floor">#' + floor + '楼</a>&nbsp;'
             +'<a href="/users/' + user_name + '/" class="at_user"><i>@</i>' + user_name + '</a>&nbsp;'
         );
-        $("html, body").animate({ scrollTop: $('#reply').offset().top }, 1000);
+        $("html, body").animate({ scrollTop: $('#reply').offset().top }, 200);
         return false;
 }
 

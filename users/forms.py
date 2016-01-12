@@ -2,7 +2,7 @@
 __author__ = 'yijingping'
 from django import forms
 from django.forms import ModelForm
-from .models import User, Follow, Favorite
+from .models import User
 
 
 class UserForm(ModelForm):
