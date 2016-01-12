@@ -137,6 +137,7 @@ $(document).ready(function() {
       success: function (data) {
         $("#replies .items").append(data);
         CKEDITOR.instances['id_content'].setData('');
+        $("#replies .total b").text(parseInt($("#replies .total b").text()) + 1 )
       }
     });
   });

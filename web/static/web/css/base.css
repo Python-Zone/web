@@ -114,6 +114,22 @@ abbr[title] {
 .topics .topic .info a {
     color: #666;
 }
+
+.topics .topic .count a:link, .topics .topic .count a:hover, .topics .topic .count a:visited {
+    line-height: 12px;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 80px;
+    padding: 2px 10px 2px 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+.topics .topic .count a:link {
+    background: #98ACDF;
+}
+.topics .topic .count a:visited {
+    background: #AAA;
+}
 .topics .node-info .name strong {
     font-weight: bold;
     color: #666;
