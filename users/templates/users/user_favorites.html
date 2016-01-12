@@ -1,0 +1,31 @@
+{% extends "users/user_base.html" %}
+{% load util %}
+{% load paginator %}
+{% block user-tabs %}
+<div class="panel panel-default profile-tabs-content recent-topics">
+  <div class="panel-body">
+    <ul class="list-group">
+      {% for item in favorites %}
+        {% with item.topic as topic %}
+        <li class="list-group-item">
+          <div class="title">
+            {% if topic.status == 1 %}
+            <a href="{% url 'topics.topic_detail' topic.id  %}">{{ topic.title }}</a>
+            {% else %}
+            <a href="#" style="text-decoration:line-through;">{{ topic.title }}</a>
+            {% endif %}
+          </div>
+          <div class="info">
+            <span class="node"><a class="node" href="{% url 'topics.node_list' topic.node.id %}">{{ topic.node.name }}</a></span>
+            <span class="counter">{{ topic.replies_count }} 条回复</span>
+          </div>
+        </li>
+        {% endwith %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="panel-footer">
+  {% load paginator %}{% paginator favorites %}
+  </div>
+</div>
+{% endblock %}
