@@ -13,7 +13,7 @@
         <span class="opts pull-right">
             <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="285743" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
             <a class="edit fa fa-pencil" data-uid="2938" title="修改回帖" href="{% url 'topics.reply_edit' topic.id reply.id %}"></a>
-            <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
+            <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#" onclick="return reply_at_who('{{ floor }}', '{{ reply_user.name }}')"></a>
         </span>
       </div>
       <div class="contnent">

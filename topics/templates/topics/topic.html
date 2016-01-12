@@ -60,7 +60,7 @@
                   {% if reply_user.id == user.id or user.is_admin %}
                   <a class="edit fa fa-pencil" data-uid="2938" title="修改回帖" href="{% url 'topics.reply_edit' topic.id item.id %}"></a>
                   {% endif %}
-                  <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
+                  <a data-floor="1" data-login="stone" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#" onclick="return reply_at_who('{{ forloop.counter }}', '{{ reply_user.name }}')"></a>
               </span>
             </div>
             <div class="contnent">
@@ -141,6 +141,15 @@ $(document).ready(function() {
     });
   });
 });
+
+function reply_at_who(floor, user_name){
+        CKEDITOR.instances['id_content'].setData(
+             '<a href="#reply' + floor + '" class="at_floor">#' + floor + '楼</a>&nbsp;'
+            +'<a href="/users/' + user_name + '/" class="at_user"><i>@</i>' + user_name + '</a>&nbsp;'
+        );
+        $("html, body").animate({ scrollTop: $('#reply').offset().top }, 1000);
+        return false;
+}
 
 </script>
 
