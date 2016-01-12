@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load compress %}
 {% load paginator %}
 {% block main-content %}
   <div class="row">
@@ -34,11 +36,11 @@
           </div>
           <div class="follow-info row">
             <div class="col-sm-4 followers" data-login="yijingping">
-              <a class="counter" href="/yijingping/followers">0</a>
+              <a class="counter" href="/yijingping/followers">{{ visited_user.followers.count }}</a>
               <a class="text" href="/yijingping/followers">关注者</a>
             </div>
             <div class="col-sm-4 following">
-              <a class="counter" href="/yijingping/following">1</a>
+              <a class="counter" href="/yijingping/following">{{ visited_user.following.count }}</a>
               <a class="text" href="/yijingping/following">正在关注</a>
             </div>
             <div class="col-sm-4 stars">
@@ -46,6 +48,15 @@
               <a class="text" href="/yijingping/favorites">收藏</a>
             </div>
           </div>
+        {% if user.is_authenticated and user.id != visited_user.id %}
+          <div class="buttons row">
+            <div class="col-sm-12">
+              <a class="button-follow-user btn btn-primary btn-block {% if is_followed %}active{% endif %}" data-name="{{ visited_user.name }}" href="#" title="">
+                <i class="fa fa-user"></i>
+                <span> {% if is_followed %}取消关注{% else %}关注{% endif %}</span></a>
+            </div>
+          </div>
+        {% endif %}
         </div>
       </div>
     </div>
@@ -67,4 +78,42 @@
     </div>
 
   </div>
+{% endblock %}
+{% block footer-js %}
+<script>
+$(".button-follow-user").click(function(ev){
+    var $self = $(this);
+    ev.preventDefault();
+    var name = $self.data("name");
+    var is_followed = $self.hasClass("active");
+    if (is_followed){
+      // 已经关注,取消关注
+      $.post('/users/'+name+'/unfollow/', {}, function(data){
+          //alert(JSON.stringify(data));
+          if(data.ret == 0){
+            $self.removeClass("active");
+            $self.find("span").text("关注");
+            /** $(".follow-info .followers .counter").text(
+                parseInt($(".follow-info .followers .counter").text()) - 1
+            ); */
+          }
+        }, 'json'
+    );
+    }else{
+      // 未关注,发起关注
+      $.post('/users/'+name+'/follow/', {}, function(data){
+          //alert(JSON.stringify(data));
+          if(data.ret == 0){
+            $self.addClass("active");
+            $self.find("span").text("取消关注");
+            /** $(".follow-info .followers .counter").text(
+                parseInt($(".follow-info .followers .counter").text()) + 1
+            ); */
+          }
+        }, 'json'
+    );
+    }
+
+});
+</script>
 {% endblock %}

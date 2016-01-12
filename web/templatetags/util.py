@@ -11,6 +11,7 @@ def update_city(params, city):
     res['city'] = city
     return res
 
+
 @register.filter
 def readable_datetime(dt):
     delta = datetime.now() - dt

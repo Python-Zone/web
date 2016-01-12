@@ -2,11 +2,13 @@
 __author__ = 'yijingping'
 from django import forms
 from django.forms import ModelForm
-from .models import User
-from captcha.fields import CaptchaField
+from .models import User, Follow, Favorite
 
 
 class UserForm(ModelForm):
     class Meta:
         model = User
         exclude = ['is_active', 'is_admin', 'last_login', 'create_time']
+
+
+

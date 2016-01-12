@@ -1,0 +1,40 @@
+{% extends "users/user_base.html" %}
+{% load util %}
+{% load paginator %}
+{% block user-tabs %}
+<div class="panel panel-default profile-tabs-content recent-topics">
+  <div class="panel-body">
+    <div class="row">
+      {% for item in followings %}
+        {% with item.to_user as to_user %}
+        <div class="col-xs-4" style="min-width: 100px;">
+          <div class="media user-card">
+            <div class="media-left">
+              <a href="{% url 'users.user' to_user.name %}">
+                <img class="media-object avatar-48" src="{{ to_user.avatar }}" alt="">
+              </a>
+            </div>
+            <div class="media-body">
+              <div class="media-heading"><a href="{% url 'users.user' to_user.name %}">{{ to_user.name }}</a></div>
+              {% if visited_user.id == user.id %}
+              <div class="infos">
+                <div class="item opts">
+                  <a data-name="{{ to_user.name }}" class="button-follow-user active" href="#">
+                    <i class="fa fa-user"></i>
+                    <span>取消关注</span>
+                  </a>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="panel-footer">
+  {% load paginator %}{% paginator followings %}
+  </div>
+</div>
+{% endblock %}

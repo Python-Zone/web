@@ -11,4 +11,9 @@ urlpatterns = [
     url(r'^captcha/refresh/$', views.captcha_refresh, name="users.captcha_refresh"),
     url(r'^(?P<name>\w+)/$', views.user_home, name="users.user"),
     url(r'^(?P<name>\w+)/replies/$', views.user_replies, name="users.user_replies"),
+    url(r'^(?P<name>\w+)/following/$', views.user_following, name="users.user_following"),
+    url(r'^(?P<name>\w+)/followers/$', views.user_followers, name="users.user_followers"),
+
+    url(r'^(?P<name>\w+)/follow/$', views.user_follow, name="users.user_follow"),
+    url(r'^(?P<name>\w+)/unfollow/$', views.user_unfollow, name="users.user_unfollow"),
 ]

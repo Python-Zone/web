@@ -51,7 +51,62 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-
     class Meta:
         verbose_name_plural = "用户"
 
+
+class Follow(models.Model):
+    from_user = models.ForeignKey('User', related_name='following', verbose_name='正在关注')
+    to_user = models.ForeignKey('User', related_name='followers', verbose_name='关注者')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    @staticmethod
+    def is_followed(from_user, to_user):
+        try:
+            Follow.objects.get(from_user=from_user, to_user=to_user)
+        except Follow.DoesNotExist:
+            return False
+        else:
+            return True
+
+    class Meta:
+        verbose_name_plural = "关注"
+        unique_together = ("from_user", "to_user")
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey('User', related_name='favorites', verbose_name='收藏者')
+    topic = models.ForeignKey('topics.Topic', related_name='favorites', verbose_name='帖子')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "收藏"
+        unique_together = ("user", "topic")
+
+
+class Notification(models.Model):
+    KIND_TOPIC_ADD = 1
+    KIND_REPLY_ADD = 2
+    KIND_FOLLOW_ME = 3
+    KIND_CHOICES = (
+        (KIND_TOPIC_ADD, '发布文章'),
+        (KIND_REPLY_ADD, '回复文章'),
+        (KIND_FOLLOW_ME, '关注我'),
+    )
+    STATUS_UNREAD = 1
+    STATUS_READ = 2
+    STATUS_DELETE = 3
+    STATUS_CHOICES = (
+        (STATUS_UNREAD, '未读'),
+        (STATUS_READ, '已读'),
+        (STATUS_DELETE, '删除')
+    )
+    user = models.ForeignKey('User', related_name='notifications', verbose_name='用户')
+    kind = models.IntegerField(choices=KIND_CHOICES, verbose_name="通知类型")
+    status = models.IntegerField(default=STATUS_UNREAD, choices=STATUS_CHOICES, verbose_name="状态")
+    content = models.TextField(default='', verbose_name='通知内容')
+    update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    class Meta:
+        verbose_name_plural = "通知"

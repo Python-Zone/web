@@ -62,6 +62,11 @@ abbr[title] {
 .sidebar .profile .follow-info a.text {
     color: #999;
 }
+.sidebar .profile .buttons {
+    border-top: 1px solid #f0f0f0;
+    margin-top: 15px;
+    padding-top: 15px;
+}
 .profile-tabs-content {
     border-radius: 0 0 4px 4px;
     border-top: none;
@@ -99,6 +104,14 @@ abbr[title] {
     height: 24px;
     border-radius: 2px;
     margin: -4px 4px;
+}
+.topics .topic {
+    min-height: 68px;
+    border-bottom: 1px solid #F0F0F0;
+    padding: 10px 15px;
+    margin: 0 -15px;
+    vertical-align: top;
+    position: relative;
 }
 .topics .topic .info {
     color: #aaa;
@@ -300,3 +313,24 @@ abbr[title] {
     color: #999;
 }
 
+/* user-card */
+.user-card .media-heading {
+    font-weight: bold;
+}
+.user-card .media-heading a {
+    color: #333;
+}
+.user-card .infos {
+    color: #999;
+    font-size: 12px;
+}
+.user-card .infos .item {
+    margin-top: 5px;
+}
+.opts a.active .fa {
+    color: #EB5424;
+}
+.opts a:link, .opts a:visited {
+    color: #666;
+    text-decoration: none;
+}
