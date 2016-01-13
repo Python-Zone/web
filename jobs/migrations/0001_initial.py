@@ -17,6 +17,8 @@ class Migration(migrations.Migration):
                 ('uniqueid', models.CharField(unique=True, max_length=100, verbose_name=b'url\xe7\x9a\x84md5\xe5\x80\xbc')),
                 ('url', models.CharField(max_length=500, verbose_name=b'\xe6\x96\x87\xe7\xab\xa0\xe7\x9a\x84url')),
                 ('site', models.CharField(max_length=200, verbose_name=b'\xe6\x9d\xa5\xe6\xba\x90\xe7\xbd\x91\xe7\xab\x99')),
+                ('originid', models.CharField(max_length=200, verbose_name=b'\xe6\x9d\xa5\xe6\xba\x90id')),
+                ('avatar', models.CharField(max_length=500, verbose_name=b'\xe7\xbc\xa9\xe7\x95\xa5\xe5\x9b\xbe\xe5\x9c\xb0\xe5\x9d\x80')),
                 ('title', models.CharField(max_length=200, verbose_name=b'\xe6\xa0\x87\xe9\xa2\x98')),
                 ('description', models.TextField(verbose_name=b'\xe8\x81\x8c\xe4\xbd\x8d\xe6\x8f\x8f\xe8\xbf\xb0')),
                 ('salary_min', models.IntegerField(default=0, verbose_name=b'\xe6\x9c\x80\xe4\xbd\x8e\xe8\x96\xaa\xe8\xb5\x84')),
