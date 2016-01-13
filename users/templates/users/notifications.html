@@ -19,7 +19,34 @@
       </div>
       <div class="panel-body">
         {% for item in notifications %}
-          {% if item.kind == 2 %}
+          {% if item.kind == 1 %}
+            {% with user_=item.topic.user topic=item.topic  %}
+            <div class="media notification">
+                <div class="media-left avatar">
+                <a href="{% url 'users.user' user_.name %}"><img class="media-object avatar-48" src="{{ user_.avatar }}"></a>
+              </div>
+              <div class="media-body">
+                <div class="media-heading">
+                  <span class="user">
+                    <a href="{% url 'users.user' user_.name %}">{{ user_.name }}</a>
+                  </span>
+                  <span class="info">
+                    发布了帖子
+                    <a href="{% url 'topics.topic_detail' topic.id %}">{{ topic.title }}</a>
+                  </span>
+                  <span class="date pull-right"><i class="fa fa-clock-o"></i> <abbr class="timeago" title="{{ topic.publish_time }}">{{ topic.publish_time | readable_datetime }}</abbr></span>
+                </div>
+                <div class="summary">
+                  {{ topic.content | safe }}
+                </div>
+              </div>
+
+              <div class="media-right opts">
+                <a class="btn-notifications-delete" href="{% url 'users.notifications_delete' item.id %}"><i class="fa fa-trash"></i> </a>
+              </div>
+            </div>
+            {% endwith %}
+          {% elif item.kind == 2 %}
             {% with reply=item.reply user_=item.reply.user topic=item.reply.topic  %}
             <div class="media notification">
                 <div class="media-left avatar">
@@ -39,6 +66,29 @@
                 </div>
                 <div class="summary">
                   {{ reply.content | safe }}
+                </div>
+              </div>
+
+              <div class="media-right opts">
+                <a class="btn-notifications-delete" href="{% url 'users.notifications_delete' item.id %}"><i class="fa fa-trash"></i> </a>
+              </div>
+            </div>
+            {% endwith %}
+          {% elif item.kind == 3 %}
+            {% with follow=item.follow user_=item.follow.from_user  %}
+            <div class="media notification">
+                <div class="media-left avatar">
+                <a href="{% url 'users.user' user_.name %}"><img class="media-object avatar-48" src="{{ user_.avatar }}"></a>
+              </div>
+              <div class="media-body">
+                <div class="media-heading">
+                  <span class="user">
+                    <a href="{% url 'users.user' user_.name %}">{{ user_.name }}</a>
+                  </span>
+                  <span class="info">
+                    关注了你
+                  </span>
+                  <span class="date pull-right"><i class="fa fa-clock-o"></i> <abbr class="timeago" title="{{ follow.create_time }}">{{ follow.create_time | readable_datetime }}</abbr></span>
                 </div>
               </div>
 
