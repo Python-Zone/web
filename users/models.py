@@ -63,8 +63,8 @@ class User(AbstractBaseUser):
         return Favorite.objects.filter(user=self, status=Favorite.STATUS_SHOW)
 
     @property
-    def my_notifications(self):
-        return Notification.objects.filter(user=self).exclude(status=Notification.STATUS_DELETE)
+    def my_notifications_unread(self):
+        return Notification.objects.filter(user=self, status=Notification.STATUS_UNREAD)
 
     class Meta:
         verbose_name_plural = "用户"

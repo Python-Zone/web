@@ -22,10 +22,10 @@
       <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
         <li class="notification-count">
-          <a href="{% url 'users.notifications' %}" class="{% if user.my_notifications.count %}new{% endif %}" title="通知">
+          <a href="{% url 'users.notifications' %}" class="{% if user.my_notifications_unread.count %}new{% endif %}" title="通知">
             <i class="fa fa-bell"></i>
-            {% if user.my_notifications.count %}
-            <span class="count">{{ user.my_notifications.count }}</span>
+            {% if user.my_notifications_unread.count %}
+            <span class="count">{{ user.my_notifications_unread.count }}</span>
             {% endif %}
           </a>
         </li>
