@@ -353,7 +353,7 @@ def notifications_unread(request):
         elif item.kind == Notification.KIND_REPLY_ADD:
             item.reply = get_object_or_404(Reply, pk=content["reply_id"])
         elif item.kind == Notification.KIND_FOLLOW_ME:
-            item.follow = get_object_or_404(Topic, pk=content["follow_id"])
+            item.follow = get_object_or_404(Follow, pk=content["follow_id"])
 
     context.update(common_info(request, request.user, user))
     context.update({
