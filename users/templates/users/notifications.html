@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load util %}
+{% block main-content %}
+<div class="row">
+  <div class="col-md-12">
+
+    <div id="notifications" class="panel panel-default">
+      <div class="panel-heading">
+        <a class="btn btn-default active" href="{% url 'users.notifications' %}">
+          <i class="fa fa-fa fa-filter"></i> <span>所有</span>
+        </a>
+        <a class="btn btn-default active" href="{% url 'users.notifications_unread' %}">
+          <i class="fa fa-fa fa-filter"></i> <span>未读</span>
+        </a>
+        <a class="btn btn-danger" rel="nofollow" href="{% url 'users.notifications_clear' %}">
+          <i class="fa fa-fa fa-trash"></i> <span>清空</span>
+        </a>
+        <div class="pull-right"><h4>通知提醒</h4></div>
+      </div>
+      <div class="panel-body">
+        {% for item in notifications %}
+          {% if item.kind == 2 %}
+            {% with reply=item.reply user_=item.reply.user topic=item.reply.topic  %}
+            <div class="media notification">
+                <div class="media-left avatar">
+                <a href="{% url 'users.user' user_.name %}"><img class="media-object avatar-48" src="{{ user_.avatar }}"></a>
+              </div>
+              <div class="media-body">
+                <div class="media-heading">
+                  <span class="user">
+                    <a href="{% url 'users.user' user_.name %}">{{ user_.name }}</a>
+                  </span>
+                  <span class="info">
+                    在帖子
+                    <a href="{% url 'topics.topic_detail' topic.id %}">{{ topic.title }}</a>
+                  </span>
+                  回复了
+                  <span class="date pull-right"><i class="fa fa-clock-o"></i> <abbr class="timeago" title="{{ reply.create_time }}">{{ reply.create_time | readable_datetime }}</abbr></span>
+                </div>
+                <div class="summary">
+                  {{ reply.content | safe }}
+                </div>
+              </div>
+
+              <div class="media-right opts">
+                <a class="btn-notifications-delete" href="{% url 'users.notifications_delete' item.id %}"><i class="fa fa-trash"></i> </a>
+              </div>
+            </div>
+            {% endwith %}
+          {% endif %}
+
+        {% endfor %}
+        {% if notifications.paginator.count == 0 %}
+          <p class="no-records">暂无通知</p>
+        {% endif %}
+      </div>
+
+      <div class="panel-footer">
+      {% load paginator %}{% paginator notifications %}
+      </div>
+    </div><!--#sections-->
+
+  </div><!--.col-md-12-->
+
+</div><!--.row-->
+{% endblock %}
+{% block footer-js %}
+<script>
+  $(".btn-notifications-delete").click(function(ev){
+    var $self = $(this);
+    ev.preventDefault();
+    var url = $self.attr("href");
+
+      $.get(url, function(data){
+          //alert(JSON.stringify(data));
+          if(data.ret == 0){
+            $row = $self.parents(".notification");
+            $row.hide("normal", function(){ $row.remove(); });
+          }
+        }, 'json'
+    );
+});
+</script>
+{% endblock %}

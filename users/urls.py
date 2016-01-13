@@ -8,6 +8,11 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name="users.signup"),
     url(r'^signin/$', views.signin, name="users.signin"),
     url(r'^signout/$', views.signout, name="users.signout"),
+    url(r'^notifications/$', views.notifications, name="users.notifications"),
+    url(r'^notifications/unread/$', views.notifications_unread, name="users.notifications_unread"),
+    url(r'^notifications/clear/$', views.notifications_clear, name="users.notifications_clear"),
+    url(r'^notifications/(?P<id_>\d+)/delete/$', views.notifications_delete, name="users.notifications_delete"),
+
     url(r'^captcha/refresh/$', views.captcha_refresh, name="users.captcha_refresh"),
     url(r'^(?P<name>\w+)/$', views.user_home, name="users.user"),
     url(r'^(?P<name>\w+)/replies/$', views.user_replies, name="users.user_replies"),

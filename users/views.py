@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'yijingping'
+import json
 from datetime import datetime
 from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -14,7 +16,7 @@ from django.contrib import messages
 from web.util import check_captcha, add_messages_from_form_errors
 from topics.models import Topic, Reply, Favorite
 from .forms import UserForm
-from .models import User, Follow
+from .models import User, Follow, Notification
 from .util import login_required
 
 
@@ -177,7 +179,7 @@ def user_following(request, name):
     context = {}
     params = request.GET.copy()
     user = get_object_or_404(User, name=name)
-    _obj_list = Follow.objects.filter(from_user=user).order_by('-id')
+    _obj_list = Follow.objects.filter(from_user=user, status=Follow.STATUS_SHOW).order_by('-id')
 
     paginator = Paginator(_obj_list, 30)  # Show 25 contacts per page
 
@@ -206,7 +208,7 @@ def user_followers(request, name):
     context = {}
     params = request.GET.copy()
     user = get_object_or_404(User, name=name)
-    _obj_list = Follow.objects.filter(to_user=user).order_by('-id')
+    _obj_list = Follow.objects.filter(to_user=user, status=Follow.STATUS_SHOW).order_by('-id')
 
     paginator = Paginator(_obj_list, 30)  # Show 25 contacts per page
 
@@ -239,12 +241,8 @@ def user_followers(request, name):
 def user_follow(request, name):
     me = request.user
     user = get_object_or_404(User, name=name)
-    try:
-        Follow.objects.create(from_user=me, to_user=user)
-    except Exception as e:
-        return JsonResponse({'ret': 1, 'message': '不能重复关注!'})
-    else:
-        return JsonResponse({'ret': 0, 'message': '关注成功!'})
+    Follow.objects.update_or_create(from_user=me, to_user=user, defaults={"status": Follow.STATUS_SHOW})
+    return JsonResponse({'ret': 0, 'message': '关注成功!'})
 
 
 @csrf_exempt
@@ -252,12 +250,8 @@ def user_follow(request, name):
 def user_unfollow(request, name):
     me = request.user
     user = get_object_or_404(User, name=name)
-    try:
-        Follow.objects.filter(from_user=me, to_user=user).delete()
-    except Exception as e:
-        return JsonResponse({'ret': 1, 'message': '取消关注失败'})
-    else:
-        return JsonResponse({'ret': 0, 'message': '成功取消关注!'})
+    Follow.objects.update_or_create(from_user=me, to_user=user, defaults={"status": Follow.STATUS_DELETE})
+    return JsonResponse({'ret': 0, 'message': '成功取消关注!'})
 
 
 def user_favorites(request, name):
@@ -287,3 +281,105 @@ def user_favorites(request, name):
         "params": params
     })
     return render_to_response('users/user_favorites.html', RequestContext(request, context))
+
+
+@login_required
+def notifications(request):
+    user = request.user
+    context = {}
+    params = request.GET.copy()
+    _obj_list = Notification.objects.filter(user=user).exclude(status=Notification.STATUS_DELETE).order_by('-id')
+
+    paginator = Paginator(_obj_list, 10)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        notifications = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        notifications = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        notifications = paginator.page(paginator.num_pages)
+
+    # 添加通知详情信息
+    for item in notifications.object_list:
+        #item.status = Notification.STATUS_READ
+        #item.save()
+        content = json.loads(item.content)
+        if item.kind == Notification.KIND_TOPIC_ADD:
+            item.topic = get_object_or_404(Topic, pk=content["topic_id"])
+        elif item.kind == Notification.KIND_REPLY_ADD:
+            item.reply = get_object_or_404(Reply, pk=content["reply_id"])
+        elif item.kind == Notification.KIND_FOLLOW_ME:
+            item.follow = get_object_or_404(Topic, pk=content["follow_id"])
+
+    context.update(common_info(request, request.user, user))
+    context.update({
+        "active_nav": "",
+        "notifications": notifications,
+        "params": params
+    })
+
+    return render_to_response('users/notifications.html', RequestContext(request, context))
+
+
+@login_required
+def notifications_unread(request):
+    user = request.user
+    context = {}
+    params = request.GET.copy()
+    _obj_list = Notification.objects.filter(user=user, status=Notification.STATUS_UNREAD).order_by('-id')
+
+    paginator = Paginator(_obj_list, 10)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        notifications = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        notifications = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        notifications = paginator.page(paginator.num_pages)
+
+    # 添加通知详情信息
+    for item in notifications.object_list:
+        #item.status = Notification.STATUS_READ
+        #item.save()
+        content = json.loads(item.content)
+        if item.kind == Notification.KIND_TOPIC_ADD:
+            item.topic = get_object_or_404(Topic, pk=content["topic_id"])
+        elif item.kind == Notification.KIND_REPLY_ADD:
+            item.reply = get_object_or_404(Reply, pk=content["reply_id"])
+        elif item.kind == Notification.KIND_FOLLOW_ME:
+            item.follow = get_object_or_404(Topic, pk=content["follow_id"])
+
+    context.update(common_info(request, request.user, user))
+    context.update({
+        "active_nav": "",
+        "notifications": notifications,
+        "params": params
+    })
+
+    return render_to_response('users/notifications.html', RequestContext(request, context))
+
+
+@login_required
+def notifications_clear(request):
+    user = request.user
+    Notification.objects.filter(user=user).update(status=Notification.STATUS_DELETE)
+    messages.success(request, '成功清除所有消息通知!')
+    return redirect(reverse('users.notifications'))
+
+
+@csrf_exempt
+@login_required
+def notifications_delete(request, id_):
+    me = request.user
+    matched_rows = Notification.objects.filter(pk=id_, user=me).update(status=Notification.STATUS_DELETE)
+    if matched_rows > 0:
+        return JsonResponse({'ret': 0, 'message': '成功删除消息!'})
+    else:
+        return JsonResponse({'ret': 1, 'message': '消息不存在!'})
+

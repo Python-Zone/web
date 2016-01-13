@@ -21,6 +21,14 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
+        <li class="notification-count">
+          <a href="{% url 'users.notifications' %}" class="{% if user.my_notifications.count %}new{% endif %}" title="通知">
+            <i class="fa fa-bell"></i>
+            {% if user.my_notifications.count %}
+            <span class="count">{{ user.my_notifications.count }}</span>
+            {% endif %}
+          </a>
+        </li>
         <li class="dropdown">
           <a href="/users/{{ user.name }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="avatar-24" src="{{ user.avatar }}"/>{{ user.name }} <span class="caret"></span></a>
           <ul class="dropdown-menu">

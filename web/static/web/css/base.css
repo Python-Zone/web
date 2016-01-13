@@ -3,6 +3,9 @@ body {
     background: #E7EAEC;
     color: #222527;
 }
+a {
+    color: #356DD0;
+}
 hr {
     border-color: #ddd;
 }
@@ -376,4 +379,18 @@ abbr[title] {
 .opts a:link, .opts a:visited {
     color: #666;
     text-decoration: none;
+}
+/* notifications */
+#notifications .notification .info {
+    color: #999;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.no-records {
+    padding: 80px 0;
+    text-align: center;
+    color: #aaa;;
+}
+.notification-count .new {
+    color: #F86334 !important;
 }

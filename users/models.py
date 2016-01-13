@@ -51,19 +51,38 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    @property
+    def my_following(self):
+        return Follow.objects.filter(from_user=self, status=Follow.STATUS_SHOW)
+
+    @property
+    def my_followers(self):
+        return Follow.objects.filter(to_user=self, status=Follow.STATUS_SHOW)
+
+    @property
+    def my_notifications(self):
+        return Notification.objects.filter(user=self).exclude(status=Notification.STATUS_DELETE)
+
     class Meta:
         verbose_name_plural = "用户"
 
 
 class Follow(models.Model):
+    STATUS_SHOW = 1
+    STATUS_DELETE = 2
+    STATUS_CHOICES = (
+        (STATUS_SHOW, '显示'),
+        (STATUS_DELETE, '删除')
+    )
     from_user = models.ForeignKey('User', related_name='following', verbose_name='正在关注')
     to_user = models.ForeignKey('User', related_name='followers', verbose_name='关注者')
     create_time = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(default=STATUS_SHOW, verbose_name="是否显示")
 
     @staticmethod
     def is_followed(from_user, to_user):
         try:
-            Follow.objects.get(from_user=from_user, to_user=to_user)
+            Follow.objects.get(from_user=from_user, to_user=to_user, status=Follow.STATUS_SHOW)
         except Follow.DoesNotExist:
             return False
         else:
