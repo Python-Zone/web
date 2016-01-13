@@ -99,14 +99,21 @@ class Node(models.Model):
 
 
 class Favorite(models.Model):
+    STATUS_SHOW = 1
+    STATUS_DELETE = 2
+    STATUS_CHOICES = (
+        (STATUS_SHOW, '显示'),
+        (STATUS_DELETE, '删除')
+    )
     user = models.ForeignKey('users.User', related_name='favorites', verbose_name='收藏者')
     topic = models.ForeignKey('topics.Topic', related_name='favorites', verbose_name='帖子')
     create_time = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(default=STATUS_SHOW, verbose_name="是否显示")
 
     @staticmethod
     def is_favorite(user, topic):
         try:
-            Favorite.objects.get(user=user, topic=topic)
+            Favorite.objects.get(user=user, topic=topic, status=Favorite.STATUS_SHOW)
         except Favorite.DoesNotExist:
             return False
         else:

@@ -212,12 +212,8 @@ def node_list(request, id_):
 def topic_favorite(request, topic_id):
     me = request.user
     topic = get_object_or_404(Topic, pk=topic_id)
-    try:
-        Favorite.objects.create(user=me, topic=topic)
-    except Exception as e:
-        return JsonResponse({'ret': 1, 'message': '不能重复收藏!'})
-    else:
-        return JsonResponse({'ret': 0, 'message': '收藏成功!'})
+    Favorite.objects.update_or_create(user=me, topic=topic, defaults={"status": Favorite.STATUS_SHOW})
+    return JsonResponse({'ret': 0, 'message': '收藏成功!'})
 
 
 @csrf_exempt
@@ -225,9 +221,5 @@ def topic_favorite(request, topic_id):
 def topic_unfavorite(request, topic_id):
     me = request.user
     topic = get_object_or_404(Topic, pk=topic_id)
-    try:
-        Favorite.objects.filter(user=me, topic=topic).delete()
-    except Exception as e:
-        return JsonResponse({'ret': 1, 'message': '取消收藏失败'})
-    else:
-        return JsonResponse({'ret': 0, 'message': '成功取消收藏!'})
+    Favorite.objects.update_or_create(user=me, topic=topic, defaults={"status": Favorite.STATUS_DELETE})
+    return JsonResponse({'ret': 0, 'message': '成功取消收藏!'})

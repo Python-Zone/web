@@ -36,16 +36,16 @@
           </div>
           <div class="follow-info row">
             <div class="col-sm-4 followers" data-login="yijingping">
-              <a class="counter" href="/yijingping/followers">{{ visited_user.my_followers.count }}</a>
-              <a class="text" href="/yijingping/followers">关注者</a>
+              <a class="counter" href="{% url 'users.user_followers' visited_user.name %}">{{ visited_user.my_followers.count }}</a>
+              <a class="text" href="{% url 'users.user_followers' visited_user.name %}">关注者</a>
             </div>
             <div class="col-sm-4 following">
-              <a class="counter" href="/yijingping/following">{{ visited_user.my_following.count }}</a>
-              <a class="text" href="/yijingping/following">正在关注</a>
+              <a class="counter" href="{% url 'users.user_following' visited_user.name %}">{{ visited_user.my_following.count }}</a>
+              <a class="text" href="{% url 'users.user_following' visited_user.name %}">正在关注</a>
             </div>
             <div class="col-sm-4 stars">
-              <a class="counter" href="/yijingping/favorites">0</a>
-              <a class="text" href="/yijingping/favorites">收藏</a>
+              <a class="counter" href="{% url 'users.user_favorites' visited_user.name %}">{{ visited_user.my_favorites.count }}</a>
+              <a class="text" href="{% url 'users.user_favorites' visited_user.name %}">收藏</a>
             </div>
           </div>
         {% if user.is_authenticated and user.id != visited_user.id %}

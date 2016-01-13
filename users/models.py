@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .manager import UserManager
 
-
 class User(AbstractBaseUser):
     name = models.CharField(max_length=30, unique=True)
     #password = models.CharField(max_length=128)
@@ -58,6 +57,10 @@ class User(AbstractBaseUser):
     @property
     def my_followers(self):
         return Follow.objects.filter(to_user=self, status=Follow.STATUS_SHOW)
+
+    @property
+    def my_favorites(self):
+        return Favorite.objects.filter(user=self, status=Favorite.STATUS_SHOW)
 
     @property
     def my_notifications(self):
@@ -119,3 +122,6 @@ class Notification(models.Model):
 
     class Meta:
         verbose_name_plural = "通知"
+
+
+from topics.models import Favorite
