@@ -62,11 +62,9 @@
             </div>
           </div>
           <div class="count media-right">
-              <div class="count media-right">
-                {% if item.replies_count > 0 %}
-                  <a class="state-false" href="{% url 'topics.topic_detail' item.id %}#reply{{ item.replies_count }}">{{ item.replies_count }}</a>
-                {% endif %}
-              </div>
+            {% if item.replies_count > 0 %}
+              <a class="state-false" href="{% url 'topics.topic_detail' item.id %}#reply{{ item.replies_count }}">{{ item.replies_count }}</a>
+            {% endif %}
           </div>
         </div>
         {% endfor %}
