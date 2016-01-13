@@ -304,8 +304,8 @@ def notifications(request):
 
     # 添加通知详情信息
     for item in notifications.object_list:
-        #item.status = Notification.STATUS_READ
-        #item.save()
+        item.status = Notification.STATUS_READ
+        item.save()
         content = json.loads(item.content)
         if item.kind == Notification.KIND_TOPIC_ADD:
             item.topic = get_object_or_404(Topic, pk=content["topic_id"])
@@ -345,8 +345,8 @@ def notifications_unread(request):
 
     # 添加通知详情信息
     for item in notifications.object_list:
-        #item.status = Notification.STATUS_READ
-        #item.save()
+        item.status = Notification.STATUS_READ
+        item.save()
         content = json.loads(item.content)
         if item.kind == Notification.KIND_TOPIC_ADD:
             item.topic = get_object_or_404(Topic, pk=content["topic_id"])
