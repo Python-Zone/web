@@ -3,8 +3,8 @@ from .models import Topic, Section, Node
 
 
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'show_url', 'site', 'update_time', 'create_time')
-    list_filter = ['site', 'publish_time', 'create_time']
+    list_display = ('id', 'title', 'show_url', 'update_time', 'create_time')
+    list_filter = ['kind', 'publish_time', 'create_time']
     search_fields = ['title', 'url']
 
     def show_url(self, obj):

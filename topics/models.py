@@ -9,20 +9,23 @@ def get_default_uniqueid():
 
 
 class Topic(models.Model):
+    KIND_TOPIC = 1
+    KIND_URL = 2
+    KIND_CHOICES = (
+        (KIND_TOPIC, '文章'),
+        (KIND_URL, 'URL'),
+    )
     STATUS_SHOW = 1
     STATUS_DELETE = 2
     STATUS_CHOICES = (
         (STATUS_SHOW, '显示'),
         (STATUS_DELETE, '删除')
     )
+    kind = models.IntegerField(default=KIND_TOPIC, choices=KIND_CHOICES, verbose_name="通知类型")
     # 抓取文章所需关键字
     uniqueid = models.CharField(unique=True, max_length=100, default=get_default_uniqueid, verbose_name='url的md5值')
     url = models.CharField(max_length=500, default='', verbose_name='文章的url')
-    site = models.CharField(max_length=200, default='', verbose_name='来源网站')
-    originid = models.CharField(max_length=200, default='', verbose_name='来源id')
     avatar = models.CharField(max_length=500, default='', verbose_name='缩略图地址')
-    author = models.CharField(max_length=50, default='', verbose_name='作者')
-    abstract = models.TextField(default='', verbose_name='文章简介')
 
     # 发布的文章需要的信息
     title = models.CharField(max_length=200, verbose_name='标题')
@@ -30,7 +33,6 @@ class Topic(models.Model):
     user = models.ForeignKey('users.User', null=True, related_name='topics', verbose_name='作者')
     content = models.TextField(default='', verbose_name='文章内容')
     source = models.TextField(default='', verbose_name='markdown原格式')
-    tags = models.CharField(default='', max_length=50, verbose_name='文章标签,以|分割')
     publish_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')

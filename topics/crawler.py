@@ -43,16 +43,13 @@ class TopicCrawler(object):
                 avatar = avatar.attrib['src'] if avatar is not None else ''
                 publish_time = self._process_datetime([x for x in node.find(".//div[@class='post-meta']/p").itertext()][2].strip()[:-1].strip())
                 data = {
+                    'kind': 2,
                     'uniqueid': self._calc_uniqueid(url),
                     'url': url,
-                    'site': '伯乐在线',
-                    'originid': originid,
                     'avatar': avatar,
                     'title': node.find(".//a[@class='archive-title']").text,
-                    'author': '伯乐在线',
-                    'abstract': node.find(".//div[@class='post-meta']/span[@class='excerpt']/p").text,
+                    'user_id': 1,
                     'content': '',
-                    'tags': '',
                     'publish_time': publish_time
                 }
                 encode_dict(data)
