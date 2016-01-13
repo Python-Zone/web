@@ -13,13 +13,13 @@
           <div class="info">
             <a class="node" href="{% url 'topics.node_list' topic.node.id %}">{{ topic.node.name }}</a>
              ·
-            <a data-author="true" href="">{{ topic.user.name }}</a>
+            <a data-author="true" href="{% url 'users.user' topic.user.name %}">{{ topic.user.name }}</a>
              ·
             于 <span>{{ topic.publish_time | readable_datetime }}</span> 发布
           </div>
         </div>
         <div class="avatar media-right">
-          <a href="#"><img class="media-object avatar-48" src="{{ topic.user.avatar }}" alt=""></a>
+          <a href="{% url 'users.user' topic.user.name %}"><img class="media-object avatar-48" src="{{ topic.user.avatar }}" alt=""></a>
         </div>
       </div>
 
@@ -151,6 +151,9 @@ $(document).ready(function() {
       $("html, body").animate({ scrollTop: $(document).height() }, 200);
     }
   });
+  $(".btn-focus-reply").click(function(ev) {
+    CKEDITOR.instances['id_content'].focus();
+  });
   $(".btn-favorite").click(function(ev){
     var $self = $(this);
     ev.preventDefault();
@@ -182,11 +185,17 @@ $(document).ready(function() {
 });
 
 function reply_at_who(floor, user_name){
-        CKEDITOR.instances['id_content'].setData(
+        var editor = CKEDITOR.instances['id_content'];
+        editor.setData(
              '<a href="#reply' + floor + '" class="at_floor">#' + floor + '楼</a>&nbsp;'
-            +'<a href="/users/' + user_name + '/" class="at_user"><i>@</i>' + user_name + '</a>&nbsp;'
+            +'<a href="/users/' + user_name + '/" class="at_user"><i>@</i>' + user_name + '</a> &nbsp;'
+        , function(){
+              //editor.focus_editor();
+            }
         );
+
         $("html, body").animate({ scrollTop: $('#reply').offset().top }, 200);
+
         return false;
 }
 

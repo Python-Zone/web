@@ -16,7 +16,7 @@
           </div>
           <div class="info">
             <span class="node"><a class="node" href="{% url 'topics.node_list' item.node.id %}">{{ item.node.name }}</a></span>
-            <span class="counter">0 个赞 • 1 条回复</span>
+            <span class="counter">{{ item.replies_count }} 条回复</span>
           </div>
         </li>
       {% endfor %}
