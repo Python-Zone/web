@@ -110,7 +110,7 @@ def topic_detail(request, id_):
     topic = get_object_or_404(Topic, pk=id_, status=Topic.STATUS_SHOW)
     replies = Reply.objects.filter(topic=topic)
     form = ReplyForm()
-    is_favorite = Favorite.is_favorite(me, topic)
+    is_favorite = Favorite.is_favorite(me, topic) if me.is_authenticated() else False
     return render_to_response('topics/topic.html', RequestContext(request, {
         "topic": topic,
         "active_nav": "topics",
