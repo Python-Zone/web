@@ -6,3 +6,4 @@ django-simple-captcha==0.5.1
 django-ckeditor==5.0.2
 qiniu==7.0.5
 django-qiniu-storage==2.3.0
+socketIO-client==0.6.5

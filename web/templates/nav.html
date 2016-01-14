@@ -24,9 +24,7 @@
         <li class="notification-count">
           <a href="{% url 'users.notifications' %}" class="{% if user.my_notifications_unread.count %}new{% endif %}" title="通知">
             <i class="fa fa-bell"></i>
-            {% if user.my_notifications_unread.count %}
-            <span class="count">{{ user.my_notifications_unread.count }}</span>
-            {% endif %}
+            <span class="count">{{ user.my_notifications_unread.count | default:'' }}</span>
           </a>
         </li>
         <li class="dropdown">

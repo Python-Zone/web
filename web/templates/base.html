@@ -39,7 +39,23 @@
     })();
     </script>
     <!-- end 百度统计 -->
-
+    {% if user.is_authenticated %}
+    <script src="{% static 'socket.io/socket.io.js' %}"></script>
+    <script>
+      var myUserId = {{ user.id }};
+      var socket = io('http://{{ WEBSOCKET_HOST }}:{{ WEBSOCKET_PORT }}');
+      socket.on('connect', function(){
+        socket.emit('setUserId', myUserId);
+      });
+      socket.on('notification', function(data){
+        $(".notification-count a").addClass("new");
+        var count = $(".notification-count .count").text();
+        count = count ? parseInt(count) : 0;
+        $(".notification-count .count").text(count + 1);
+      });
+      socket.on('disconnect', function(){});
+    </script>
+    {% endif %}
   </head>
   <body>
      <div id="wrapper">

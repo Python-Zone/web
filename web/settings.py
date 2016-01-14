@@ -245,6 +245,11 @@ from django.contrib import messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+# websocket
+WEBSOCKET_HOST = "localhost"
+WEBSOCKET_PORT = 3000
+
 ## Import local settings
 try:
     from local_settings import *
