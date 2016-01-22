@@ -9,6 +9,10 @@ from datetime import datetime
 from .models import Topic
 from django.utils.encoding import smart_str
 
+HEADER = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
+}
+
 
 def encode_dict(data):
     for k,v in data.iteritems():
@@ -29,7 +33,7 @@ class TopicCrawler(object):
 
     def get_item_from_list(self, lists):
         for l in lists:
-            list_rsp = requests.get(l["url"])
+            list_rsp = requests.get(l["url"], headers=HEADER)
             html = list_rsp.text
             htmlparser = etree.HTMLParser()
             tree = etree.parse(StringIO(html), htmlparser)
