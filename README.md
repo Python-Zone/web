@@ -8,7 +8,8 @@ yum install python-devel mysql-devel gcc
 ```
 Pillow依赖
 ```
-yum install libjpeg-devel zlib-devel
+yum install freetype-devel libjpeg-devel libpng-devel
+
 ```
 lxml依赖
 ```

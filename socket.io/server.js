@@ -12,7 +12,9 @@ io.on('connection', function(socket){
   });
   socket.on('send notification', function (userId) {
      console.log('userId:', userId, ' have a new message');
-     users[parseInt(userId)].emit('notification', "you have a new message");
+     if(users[parseInt(userId)]){
+         users[parseInt(userId)].emit('notification', "you have a new message");
+     }
   });
   socket.on('disconnect', function(){});
 });
