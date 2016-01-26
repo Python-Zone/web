@@ -18,46 +18,7 @@
       </div>
 
       <div class="panel-body">
-        {% for item in topics %}
-        <div class="topic media">
-          <div class="avatar media-left">
-            {% if item.avatar %}
-            <img class="media-object avatar-48" src="{{ item.avatar }}" alt="">
-            {% elif item.user %}
-            <img class="media-object avatar-48" src="{{ item.user.avatar }}" alt="">
-            {% else %}
-            <img class="media-object avatar-48" src="http://jbcdn2.b0.upaiyun.com/2012/02/python-logo.png" alt="">
-            {% endif %}
-          </div>
-          <div class="infos media-body">
-            <div class="title media-heading">
-              {% if item.url %}
-              <a target="_blank" href="{{ item.url }}">{{ item.title }}</a>
-              {% else %}
-              <a href="{% url 'topics.topic_detail' item.id %}">{{ item.title }}</a>
-              {% endif %}
-            </div>
-            <div class="info">
-              {% if item.node %}
-              <a class="node" href="{% url 'topics.node_list' item.node.id %}">{{ item.node.name }}</a>
-              •
-              {% endif %}
-                {% if item.user %}
-                  <span><a href="{% url 'users.user' item.user.name %}">{{ item.user.name }}</a></span>
-                {% else %}
-                  <span>{{ item.author }}</span>
-                {% endif %}
-              •
-              <span>发布于{{ item.publish_time | readable_datetime }}</span>
-            </div>
-          </div>
-          <div class="count media-right">
-            {% if item.replies_count > 0 %}
-              <a class="state-false" href="{% url 'topics.topic_detail' item.id %}#reply{{ item.replies_count }}">{{ item.replies_count }}</a>
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
+        {% include "topics/topic_item.html" with topics=topics %}
       </div>
 
       <div class="panel-footer clearfix">

@@ -288,6 +288,9 @@ abbr[title] {
     line-height: 100%;
     margin-bottom: 8px;
 }
+.topic-detail .panel-body img {
+    max-width: 100%;
+}
 /* topic-sidebar */
 #topic-sidebar {
     position: fixed;

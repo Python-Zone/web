@@ -24,7 +24,7 @@ class TopicCrawler(object):
     def get_lists(self):
         api = 'http://python.jobbole.com/all-posts/page/%d/'
         lists = []
-        for item in range(1, 3):
+        for item in range(1, 2):
             lists.append({
                 "url": api % item,
                 "method": "get"
@@ -53,7 +53,7 @@ class TopicCrawler(object):
                     'avatar': avatar,
                     'title': node.find(".//a[@class='archive-title']").text,
                     'user_id': 1,
-                    'content': '',
+                    'content': node.find(".//div[@class='post-meta']/span[@class='excerpt']/p").text,
                     'publish_time': publish_time
                 }
                 encode_dict(data)
