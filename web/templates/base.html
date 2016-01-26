@@ -39,7 +39,7 @@
     })();
     </script>
     <!-- end 百度统计 -->
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and WEBSOCKET_ENABLE %}
     <script src="{% static 'socket.io/socket.io.js' %}"></script>
     <script>
       var myUserId = {{ user.id }};

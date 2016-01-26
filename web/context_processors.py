@@ -9,6 +9,7 @@ def global_stats(request):
         "GLOBAL_TOTAL_USER": User.objects.all().count(),
         "GLOBAL_TOTAL_TOPIC": Topic.objects.all().count(),
         "GLOBAL_TOTAL_REPLY": Reply.objects.all().count(),
+        "WEBSOCKET_ENABLE": settings.WEBSOCKET_ENABLE,
         "WEBSOCKET_HOST": settings.WEBSOCKET_HOST,
         "WEBSOCKET_PORT": settings.WEBSOCKET_PORT
     }

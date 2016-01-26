@@ -247,6 +247,7 @@ MESSAGE_TAGS = {
 }
 
 # websocket
+WEBSOCKET_ENABLE = False
 WEBSOCKET_HOST = "localhost"
 WEBSOCKET_PORT = 3000
 

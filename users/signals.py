@@ -17,7 +17,9 @@ class SocketIOHandler(object):
         self.client = None
 
     def get_client(self):
-        if self.client:
+        if not settings.WEBSOCKET_ENABLE:
+            return None
+        elif self.client:
             pass
         else:
             self.client = SocketIO(settings.WEBSOCKET_HOST, settings.WEBSOCKET_PORT, BaseNamespace)
@@ -27,6 +29,7 @@ class SocketIOHandler(object):
 
 
 siohandler = SocketIOHandler()
+siohandler.get_client()
 
 @receiver(post_save, sender=Topic)
 def topic_add_notifications(sender, instance, created, **kwargs):
