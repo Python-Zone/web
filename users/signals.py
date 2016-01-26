@@ -21,8 +21,8 @@ class SocketIOHandler(object):
             pass
         else:
             self.client = SocketIO(settings.WEBSOCKET_HOST, settings.WEBSOCKET_PORT, BaseNamespace)
-            self.client.on_error(self.error_handler)
-            self.wait(20)
+            #self.client.on_error(self.error_handler)
+            self.client.wait(20)
         return self.client
 
 
