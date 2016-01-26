@@ -1,8 +1,8 @@
 .idea
 *.pyc
-logs
 local_settings.py
 .DS_Store
+/logs/
 /static/
 /media/
 node_modules
