@@ -251,6 +251,15 @@ WEBSOCKET_ENABLE = False
 WEBSOCKET_HOST = "localhost"
 WEBSOCKET_PORT = 3000
 
+REDIS_CONFIG = {
+    'unicrawler': {
+        'host': 'localhost',
+        'port': 6379,
+        'password': '',
+        'db': 3
+    }
+}
+
 ## Import local settings
 try:
     from local_settings import *
