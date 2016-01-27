@@ -40,7 +40,7 @@ class Command(BaseCommand):
                     'kind': Topic.KIND_URL,
                     'uniqueid': get_uniqueid(url),
                     'url': url,
-                    'avatar': '',
+                    'avatar': resp_data.get('avatar', ''),
                     'title': resp_data.get('title', ''),
                     'node_id': resp_data.get('node_id', None),
                     'user_id': resp_data.get('user_id', None),
