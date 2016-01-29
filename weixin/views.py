@@ -11,9 +11,9 @@ def index(request):
     if request.method == 'GET':
         # 处理微信的echostr验证消息
         echostr = request.GET.get('echostr')
-        signature = request.get('signature')
-        timestamp = request.get('timestamp')
-        nonce = request.get('nonce')
+        signature = request.GET.get('signature')
+        timestamp = request.GET.get('timestamp')
+        nonce = request.GET.get('nonce')
 
         if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
             return HttpResponse(echostr)
@@ -38,32 +38,32 @@ def index(request):
                 {
                     'title': '欢迎关注Python社区',
                     'description': '',
-                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/bg.jpg',
-                    'url': 'http://pythonzone.bowenpay.com/'
+                    'picurl': 'http://py.bowenpay.com/static/web/images/bg.jpg',
+                    'url': 'http://py.bowenpay.com/'
                 },
                 {
                     'title': 'Python每日话题',
                     'description': '',
-                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobole.jpg',
-                    'url': 'http://pythonzone.bowenpay.com/topics/'
+                    'picurl': 'http://py.bowenpay.com/static/web/images/jobole.jpg',
+                    'url': 'http://py.bowenpay.com/topics/'
                 },
                 {
                     'title': 'Python入门与进阶教程',
                     'description': '',
-                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/wiki.jpg',
-                    'url': 'http://pythonzone.bowenpay.com/wiki/'
+                    'picurl': 'http://py.bowenpay.com/static/web/images/wiki.jpg',
+                    'url': 'http://py.bowenpay.com/wiki/'
                 },
                 {
                     'title': 'Python最新的职位信息',
                     'description': '',
-                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/jobs.jpg',
-                    'url': 'http://pythonzone.bowenpay.com/jobs/'
+                    'picurl': 'http://py.bowenpay.com/static/web/images/jobs.jpg',
+                    'url': 'http://py.bowenpay.com/jobs/'
                 },
                 {
                     'title': '有哪些公司在使用Python ?',
                     'description': '',
-                    'picurl': 'http://pythonzone.bowenpay.com/static/web/images/gongsi.jpg',
-                    'url': 'http://pythonzone.bowenpay.com/sites/'
+                    'picurl': 'http://py.bowenpay.com/static/web/images/gongsi.jpg',
+                    'url': 'http://py.bowenpay.com/sites/'
                 },
             ])
             
