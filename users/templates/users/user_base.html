@@ -2,6 +2,13 @@
 {% load staticfiles %}
 {% load compress %}
 {% load paginator %}
+
+{% block title %}
+<title>{{ visited_user.nickname }}</title>
+<meta name="keywords" content="Python,Web开发,django,flask,程序员,投资,房产,宅男,美女图片" />
+<meta name="description" content="程序员聚集地,程序员感兴趣的话题都在这里" />
+{% endblock %}
+
 {% block main-content %}
   <div class="row">
     <div class="sidebar col-md-4" id="sidebar">

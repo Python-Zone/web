@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>Python社区-酷站</title>
+<meta name="keywords" content="Python公司,Python团队,Python名人堂,Python博客,Python国外企业团队" />
+<meta name="description" content="与Python相关的公司,名人,团队和博客" />
+{% endblock %}
+
 {% block main-content %}
   {% for kind in sites %}
     <div class="topics panel panel-default">

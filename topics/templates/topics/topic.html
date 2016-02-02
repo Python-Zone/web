@@ -2,6 +2,13 @@
 {% load staticfiles %}
 {% load compress %}
 {% load util %}
+
+{% block title %}
+<title>{{ topic.title }}</title>
+<meta name="keywords" content="{{ topic.node.name }}" />
+<meta name="description" content="{{ topic.node.desc }}" />
+{% endblock %}
+
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">

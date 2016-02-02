@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load util %}
+
+{% block title %}
+<title>{{ node.name }}</title>
+<meta name="keywords" content="{{ node.name }}" />
+<meta name="description" content="{{ node.desc }}" />
+{% endblock %}
+
 {% block main-content %}
 <div class="row">
   <div class="col-md-9">
