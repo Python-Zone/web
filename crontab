@@ -1,2 +1,2 @@
 # 抓取job信息
-*/30 * * * * cd /var/www/pythonzone/web; python ./manage.py crawl >> /var/log/pythonzone/crawl.log 2>&1
+# */30 * * * * cd /var/www/pythonzone/web; python ./manage.py crawl >> /var/log/pythonzone/crawl.log 2>&1
