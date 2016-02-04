@@ -1,8 +1,10 @@
+from hashlib import md5
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from topics.models import Topic
 from .models import Job
 # Create your views here.
 
@@ -27,6 +29,16 @@ def job_list(request):
         jobs = paginator.page(paginator.num_pages)
 
     citys = list(Job.objects.values('city').annotate(num=Count('city')).order_by('-num'))[:10]
+    for item in jobs.object_list:
+        try:
+            topic = Topic.objects.get(uniqueid=item.uniqueid)
+        except Topic.DoesNotExist:
+            topic_url = item.url
+        else:
+            topic_url = '/topics/%s/' % topic.pk
+        finally:
+            item.topic_url = topic_url
+
     return render_to_response('jobs/job_list.html', RequestContext(request, {
         "jobs": jobs,
         "citys": citys,
