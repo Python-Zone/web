@@ -36,7 +36,7 @@ def index(request):
             response = None
             data = wechat.response_news([
                 {
-                    'title': '欢迎关注Python社区',
+                    'title': '欢迎关注PySpace',
                     'description': '',
                     'picurl': 'http://py.bowenpay.com/static/web/images/bg.jpg',
                     'url': 'http://py.bowenpay.com/'
