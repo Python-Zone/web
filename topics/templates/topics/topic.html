@@ -129,6 +129,8 @@
 <script src="{% static 'jquery-validation/jquery.validate.min.js' %}"></script>
 <script src="{% static 'jquery-validation/localization/messages_zh.min.js' %}"></script>
 <script src="{% static 'web/js/jquery-bootstrap-validator.js' %}"></script>
+<!-- 移动手势 -->
+<script src="{% static 'hammer/hammer.min.js' %}"></script>
 {% endcompress %}
 <script>
 $(document).ready(function() {
@@ -217,6 +219,20 @@ function reply_at_who(floor, user_name){
 
         return false;
 }
+
+// 移动手势
+var myElement = document.getElementsByTagName('body')[0];
+var hammertime = new Hammer(myElement);
+hammertime.on('swiperight', function(ev) {
+  {% if prev_topic %}
+    window.location.href = '{% url 'topics.topic_detail' prev_topic.id %}' + '?from_node={{ from_node }}';
+  {% endif %}
+});
+hammertime.on('swipeleft', function(ev) {
+  {% if next_topic %}
+    window.location.href = '{% url 'topics.topic_detail' next_topic.id %}' + '?from_node={{ from_node }}';
+  {% endif %}
+});
 
 </script>
 

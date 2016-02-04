@@ -35,7 +35,8 @@ def topic_list(request):
         "topics": topics,
         "active_nav": "topics",
         "sections": Section.objects.order_by('-weight'),
-        "params": params
+        "params": params,
+        "from_node": ""
     }))
 
 
@@ -111,12 +112,39 @@ def topic_detail(request, id_):
     replies = Reply.objects.filter(topic=topic)
     form = ReplyForm()
     is_favorite = Favorite.is_favorite(me, topic) if me.is_authenticated() else False
+    from_node = request.GET.get("from_node", "")
+    publish_time = topic.publish_time
+    if from_node:
+        try:
+            prev_topic = Topic.objects.filter(publish_time__gte=publish_time, status=Topic.STATUS_SHOW,
+                                              node_id=int(from_node)).exclude(id=id_).order_by('publish_time', '-id')[0]
+        except IndexError:
+            prev_topic = None
+        try:
+            next_topic = Topic.objects.filter(publish_time__lte=publish_time, status=Topic.STATUS_SHOW,
+                                              node_id=int(from_node)).exclude(id=id_).order_by('-publish_time')[0]
+        except IndexError:
+            next_topic = None
+    else:
+        try:
+            prev_topic = Topic.objects.filter(publish_time__gte=publish_time, status=Topic.STATUS_SHOW,
+                                              ).exclude(id=id_).order_by('publish_time', '-id')[0]
+        except IndexError:
+            prev_topic = None
+        try:
+            next_topic = Topic.objects.filter(publish_time__lte=publish_time, status=Topic.STATUS_SHOW,
+                                              ).exclude(id=id_).order_by('-publish_time')[0]
+        except IndexError:
+            next_topic = None
     return render_to_response('topics/topic.html', RequestContext(request, {
         "topic": topic,
         "active_nav": "topics",
         "form": form,
         "replies": replies,
-        "is_favorite": is_favorite
+        "is_favorite": is_favorite,
+        "from_node": request.GET.get("from_node",""),
+        "prev_topic": prev_topic,
+        "next_topic": next_topic
     }))
 
 
@@ -201,7 +229,8 @@ def node_list(request, id_):
         "node": node,
         "topics": topics,
         "active_nav": "topics",
-        "params": params
+        "params": params,
+        "from_node": node.id
     }))
 
 

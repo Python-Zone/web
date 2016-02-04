@@ -13,7 +13,7 @@
   </div>
   <div class="infos media-body">
     <div class="title media-heading">
-      <a href="{% url 'topics.topic_detail' item.id %}">{{ item.title }}</a>
+      <a href="{% url 'topics.topic_detail' item.id %}?from_node={{ from_node }}">{{ item.title }}</a>
     </div>
     <div class="info">
       <a class="node" href="/topics/node{{ item.node.id }}">{{ item.node.name }}</a>
