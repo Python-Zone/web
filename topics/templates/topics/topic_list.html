@@ -14,21 +14,6 @@
 <div class="row">
   <div class="col-md-9">
 
-    <div class="topics panel panel-default">
-      <div class="panel-heading clearfix">
-          最新文章
-      </div>
-
-      <div class="panel-body">
-        {% include "topics/topic_item.html" with topics=topics %}
-      </div>
-
-      <div class="panel-footer clearfix">
-        {% paginator topics %}
-      </div>
-
-    </div><!--.topics-->
-
     <div id="sections" class="panel panel-default">
       <div class="panel-heading">节点导航</div>
       <div class="panel-body">
@@ -46,6 +31,21 @@
         </div>
       </div>
     </div><!--#sections-->
+
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+          最新文章
+      </div>
+
+      <div class="panel-body">
+        {% include "topics/topic_item.html" with topics=topics %}
+      </div>
+
+      <div class="panel-footer clearfix">
+        {% paginator topics %}
+      </div>
+
+    </div><!--.topics-->
 
   </div><!--.col-md-9-->
 
