@@ -116,26 +116,24 @@ def topic_detail(request, id_):
     publish_time = topic.publish_time
     if from_node:
         try:
-            prev_topic = Topic.objects.filter(publish_time__gte=publish_time, status=Topic.STATUS_SHOW,
-                                              node_id=int(from_node), id__gt=id_
-                                              ).order_by('publish_time', '-id')[0]
+            prev_topic = Topic.objects.filter(publish_time__gt=publish_time, status=Topic.STATUS_SHOW,
+                                              node_id=int(from_node)).order_by('publish_time')[0]
         except IndexError:
             prev_topic = None
         try:
-            next_topic = Topic.objects.filter(publish_time__lte=publish_time, status=Topic.STATUS_SHOW,
-                                              node_id=int(from_node),id__lt=id_
-                                              ).order_by('-publish_time')[0]
+            next_topic = Topic.objects.filter(publish_time__lt=publish_time, status=Topic.STATUS_SHOW,
+                                              node_id=int(from_node)).order_by('-publish_time')[0]
         except IndexError:
             next_topic = None
     else:
         try:
-            prev_topic = Topic.objects.filter(publish_time__gte=publish_time, status=Topic.STATUS_SHOW,
-                                              id__gt=id_).order_by('publish_time', '-id')[0]
+            prev_topic = Topic.objects.filter(publish_time__gt=publish_time, status=Topic.STATUS_SHOW
+                                              ).order_by('publish_time')[0]
         except IndexError:
             prev_topic = None
         try:
-            next_topic = Topic.objects.filter(publish_time__lte=publish_time, status=Topic.STATUS_SHOW,
-                                              id__lt=id_).order_by('-publish_time')[0]
+            next_topic = Topic.objects.filter(publish_time__lt=publish_time, status=Topic.STATUS_SHOW
+                                              ).order_by('-publish_time')[0]
         except IndexError:
             next_topic = None
     return render_to_response('topics/topic.html', RequestContext(request, {
