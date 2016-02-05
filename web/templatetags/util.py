@@ -21,8 +21,8 @@ def readable_datetime(dt):
     elif seconds <= 60 * 60:
         return "%d分钟前" % int(seconds / 60)
     elif seconds <= 60 * 60 * 24:
-        return "%d小时前" % int(seconds / (60 * 60))
+        return dt.strftime("%H:%M")
     elif seconds <= 60 * 60 * 24 * 3:
-        return "%d天前" % int(seconds / (60 * 60 * 24))
+        return "%d天前 %s" % (int(seconds / (60 * 60 * 24)), dt.strftime("%H:%M"))
     else:
-        return dt.strftime("%Y-%m-%d")
+        return dt.strftime("%Y-%m-%d %H:%M")
