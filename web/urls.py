@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
-from topics import views as topics_views
 from . import views
 
 from ckeditor_uploader import views as ck_views
@@ -26,7 +25,7 @@ ckeditor_uploader_urlpatterns = [
         url(r'^browse/', never_cache(ck_views.browse), name='ckeditor_browse'),
 ]
 urlpatterns = [
-    url(r'^$', topics_views.topic_list, name="index"),
+    url(r'^$', views.index, name="index"),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^captcha/', include('captcha.urls')),

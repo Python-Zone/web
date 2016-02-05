@@ -35,7 +35,7 @@ def job_list(request):
         except Topic.DoesNotExist:
             topic_url = item.url
         else:
-            topic_url = '/topics/%s/' % topic.pk
+            topic_url = '/topics/%s/?from_node=%s' % (topic.pk, topic.node.id)
         finally:
             item.topic_url = topic_url
 

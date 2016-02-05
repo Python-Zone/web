@@ -172,6 +172,25 @@ abbr[title] {
 .pagination {
     margin:0;
 }
+@media (max-width: 480px){
+    .pagination {
+        display: block;
+    }
+    .pagination li {
+        display: none;
+    }
+    .pagination li.prev_page {
+        display: block;
+        float: left;
+    }
+    .pagination li.next_page {
+        display: block;
+        float: right;
+    }
+    .pagination li.prev_page a, .pagination li.next_page a {
+    border-radius: 20px !important;
+}
+}
 
 /* list node */
 .node-list .node .media-left {

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load compress %}
 {% load util %}
 {% load paginator %}
 
@@ -57,4 +59,28 @@
   </div><!--.sidebar .col-md-3-->
 
 </div><!--.row-->
+{% endblock %}
+
+{% block footer-js %}
+{% compress js %}
+<!-- 移动手势 -->
+<script src="{% static 'hammer/hammer.min.js' %}"></script>
+{% endcompress %}
+<script>
+$(document).ready(function() {
+  // 移动手势
+  var myElement = document.getElementsByTagName('body')[0];
+  var hammertime = new Hammer(myElement);
+  hammertime.on('swiperight', function(ev) {
+    {% if jobs.has_previous %}
+      window.location.href = '{{ params|update_page:jobs.previous_page_number|gen_get_params|safe }}';
+    {% endif %}
+  });
+  hammertime.on('swipeleft', function(ev) {
+    {% if jobs.has_next %}
+      window.location.href = '{{ params|update_page:jobs.next_page_number|gen_get_params|safe }}';
+    {% endif %}
+  });
+});
+</script>
 {% endblock %}

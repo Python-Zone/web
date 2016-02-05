@@ -227,6 +227,7 @@ def node_list(request, id_):
         # If page is out of range (e.g. 9999), deliver last page of results.
         topics = paginator.page(paginator.num_pages)
 
+    params["from_node"] = node.id
     return render_to_response('topics/node_list.html', RequestContext(request, {
         "node": node,
         "topics": topics,

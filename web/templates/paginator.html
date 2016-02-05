@@ -3,9 +3,9 @@
 <nav>
     <ul class="pagination">
    {% if has_previous %}
-      <li><a href="{{ params|update_page:previous|gen_get_params }}" aria-label="Previous"><span aria-hidden="true">← 上一页</span></a></li>
+      <li class="prev_page"><a href="{{ params|update_page:previous|gen_get_params }}" aria-label="Previous"><span aria-hidden="true">← 上一页</span></a></li>
    {% else %}
-      <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">← 上一页</span></a></li>
+      <li class="prev_page disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">← 上一页</span></a></li>
    {% endif %}
 
    {% if show_first %}
@@ -24,9 +24,9 @@
       <li><a href="{{ params|update_page:pages|gen_get_params }}">{{ pages }}</a></li>
    {% endif %}
    {% if has_next %}
-      <li><a href="{{ params|update_page:next|gen_get_params }}" aria-label="Next"><span aria-hidden="true">下一页 →</span></a></li>
+      <li class="next_page"><a href="{{ params|update_page:next|gen_get_params }}" aria-label="Next"><span aria-hidden="true">下一页 →</span></a></li>
    {% else %}
-      <li class="disabled"><a herf="#" aria-label="Next"><span aria-hidden="true">下一页 →</span></a></li>
+      <li class="next_page disabled"><a herf="#" aria-label="Next"><span aria-hidden="true">下一页 →</span></a></li>
    {% endif %}
     </ul>
 </nav>
