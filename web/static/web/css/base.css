@@ -419,3 +419,23 @@ abbr[title] {
 .notification-count .new {
     color: #F86334 !important;
 }
+
+/* panel-toggle-icon */
+.panel-toggle-icon {
+    display: None;
+}
+@media (max-width: 480px){
+    .panel-toggle-icon {
+        display: inline-block;
+    }
+    .panel-toggle-icon.open:before {
+        content: "\f077";
+    }
+    .panel-toggle-icon.close:before {
+        content: "\f078";
+    }
+    .panel-toggle-close {
+        display: none;
+    }
+
+}

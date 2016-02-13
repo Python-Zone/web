@@ -15,8 +15,10 @@
   <div class="col-md-9">
 
     <div id="sections" class="panel panel-default">
-      <div class="panel-heading">节点导航</div>
-      <div class="panel-body">
+        <div class="panel-heading">节点导航
+            <i class="fa close pull-right panel-toggle-icon"></i>
+        </div>
+      <div class="panel-body panel-toggle-close">
         <div class="row node-list">
           {% for section in sections %}
           <div class="node media">
@@ -76,6 +78,20 @@ $(document).ready(function() {
     {% if topics.has_next %}
       window.location.href = '{{ params|update_page:topics.next_page_number|gen_get_params }}';
     {% endif %}
+  });
+  // 隐藏node
+  $('.panel-toggle-icon').click(function() {
+      var $icon = $(this);
+      var isOpen = $icon.hasClass('open');
+      var $panelBody = $icon.parents('.panel').children('.panel-body');
+      if(isOpen){
+        $icon.removeClass('open').addClass('close');
+        $panelBody.slideUp();
+      } else {
+        $icon.removeClass('close').addClass('open');
+        $panelBody.slideDown();
+      }
+
   });
 });
 </script>
