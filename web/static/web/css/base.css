@@ -423,6 +423,7 @@ abbr[title] {
 /* panel-toggle-icon */
 .panel-toggle-icon {
     display: None;
+    padding-top: .2em;
 }
 @media (max-width: 480px){
     .panel-toggle-icon {
