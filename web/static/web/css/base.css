@@ -107,6 +107,11 @@ abbr[title] {
     border-radius: 2px;
 }
 
+.avatar-wxshare {
+    width: 400px;
+    height: 400px;
+}
+
 /* list */
 .avatar-24 {
     width: 24px;

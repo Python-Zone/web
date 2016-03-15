@@ -10,6 +10,15 @@
 {% endblock %}
 
 {% block main-content %}
+<div style='margin:0 auto;width:0px;height:0px;overflow:hidden;'>
+    {% if topic.avatar %}
+    <img class="avatar-wxshare" src="{{ topic.avatar | add:'@1e_1c_0o_0l_400h_400w_90q.src' }}" alt="" width="400" height="400">
+    {% elif topic.user %}
+    <img class="avatar-wxshare" src="{{ topic.user.avatar }}" alt="">
+    {% else %}
+    <img class="avatar-wxshare" src="http://jbcdn2.b0.upaiyun.com/2012/02/python-logo.png" alt="">
+    {% endif %}
+</div>
 <div class="row">
   <div class="col-md-9">
 
