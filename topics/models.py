@@ -11,9 +11,11 @@ def get_default_uniqueid():
 class Topic(models.Model):
     KIND_TOPIC = 1
     KIND_URL = 2
+    KIND_TOPIC_WITH_URL = 3
     KIND_CHOICES = (
-        (KIND_TOPIC, '文章'),
+        (KIND_TOPIC, '文章,不显示原文链接'),
         (KIND_URL, 'URL'),
+        (KIND_TOPIC_WITH_URL, '文章,显示原文链接'),
     )
     STATUS_SHOW = 1
     STATUS_DELETE = 2

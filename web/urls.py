@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from . import views
+from topics import views as topics_views
 
 from ckeditor_uploader import views as ck_views
 from django.views.decorators.cache import never_cache
@@ -25,7 +26,8 @@ ckeditor_uploader_urlpatterns = [
         url(r'^browse/', never_cache(ck_views.browse), name='ckeditor_browse'),
 ]
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
+    url(r'^$', topics_views.topic_list, name="index"),
+    #url(r'^$', views.index, name="index"),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^captcha/', include('captcha.urls')),

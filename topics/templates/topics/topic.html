@@ -32,7 +32,7 @@
             <a data-author="true" href="{% url 'users.user' topic.user.name %}">{{ topic.user.name }}</a>
              ·
             于 <span>{{ topic.publish_time | readable_datetime }}</span> 发布
-            {% if topic.url %}
+            {% if topic.kind == 3 %}
              ·
             <a target="_blank" href="{{ topic.url }}">原文链接</a>
             {% endif %}
