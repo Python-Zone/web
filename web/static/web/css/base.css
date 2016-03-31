@@ -5,6 +5,7 @@ body {
 }
 a {
     color: #356DD0;
+    word-break: break-all;
 }
 hr {
     border-color: #ddd;
@@ -311,6 +312,7 @@ abbr[title] {
     text-align: left;
     line-height: 100%;
     margin-bottom: 8px;
+    word-break: break-all;
 }
 .topic-detail .panel-body img {
     max-width: 100%;
