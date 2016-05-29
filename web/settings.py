@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'jobs',
     'sites',
     'weixin',
+
+    'data',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,9 +103,16 @@ DATABASES = {
         'OPTIONS':{
             'charset':'utf8mb4',
         },
+    },
+    'postgres': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': '127.0.0.1',
+        'NAME': 'postgis_test',
+        'USER': 'yijingping',
+        'PASSWORD': '',
     }
 }
-
+DATABASE_ROUTERS = ['data.postgres_router.PostgresRouter']
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -259,6 +268,9 @@ REDIS_CONFIG = {
         'db': 3
     }
 }
+
+# baidu maps
+BAIDU_AK = ''
 
 ## Import local settings
 try:

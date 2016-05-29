@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load compress %}
+{% load util %}
+{% load paginator %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+{% block header-js %}
+  <!-- 引入echarts图表 -->
+  <script src="{% static 'echarts/3.1.10/echarts.min.js' %}"></script>
+  <!-- 引入百度热力图 -->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"></script>
+  <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+{% endblock %}
+
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+        {{ title }}
+      </div>
+
+      <div class="panel-body">
+        {% block data-body %}
+        {% endblock %}
+      </div>
+
+    </div><!--.data-->
+
+  </div><!--.col-md-12-->
+</div><!--.row-->
+{% endblock %}
+
+{% block footer-js %}
+{% endblock %}

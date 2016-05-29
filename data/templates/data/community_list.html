@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load compress %}
+{% load util %}
+{% load paginator %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+{% block header-js %}
+  <!-- 引入百度热力图 -->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={{ BAIDU_AK }}"></script>
+  <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+{% endblock %}
+
+{% block main-content %}
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="topics panel panel-default">
+      <div class="panel-heading clearfix">
+        {{ title }}
+      </div>
+
+      <div class="panel-body">
+
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="chart" style="width: 800px;height:600px;"></div>
+
+      </div>
+
+    </div><!--.data-->
+
+  </div><!--.col-md-12-->
+</div><!--.row-->
+{% endblock %}
+
+{% block footer-js %}
+
+<script type="text/javascript">
+    var map = new BMap.Map("chart");          // 创建地图实例
+
+    var point = new BMap.Point(116.418261, 39.921984);
+    map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); // 允许滚轮缩放
+
+    var points =[];
+
+    if(!isSupportCanvas()){
+    	alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~')
+    }
+
+	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+	map.addOverlay(heatmapOverlay);
+
+  function getCommunityHeatData(callback){
+    $.get('{% url 'data.community_heat_data' %}', function(data){
+      callback(data);
+    });
+  }
+	//是否显示热力图
+  function openHeatmap(){
+    if (points.length > 0){
+      heatmapOverlay.show();
+    }else{
+      getCommunityHeatData(function(rsp){
+        points = rsp.data;
+        heatmapOverlay.setDataSet({data:points,max:100});
+        heatmapOverlay.show();
+      });
+    }
+  }
+  openHeatmap();
+	function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+    function setGradient(){
+     	var gradient = {};
+     	var colors = document.querySelectorAll("input[type='color']");
+     	colors = [].slice.call(colors,0);
+     	colors.forEach(function(ele){
+			gradient[ele.getAttribute("data-key")] = ele.value;
+     	});
+        heatmapOverlay.setOptions({"gradient":gradient});
+    }
+	//判断浏览区是否支持canvas
+    function isSupportCanvas(){
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+</script>
+{% endblock %}

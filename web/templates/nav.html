@@ -18,6 +18,12 @@
         <li {% ifequal active_nav "wiki" %}class="active"{% endifequal %}><a href="/wiki/">wiki</a></li>
         <li {% ifequal active_nav "jobs" %}class="active"{% endifequal %}><a href="/jobs/">工作机会</a></li>
         <li {% ifequal active_nav "sites" %}class="active"{% endifequal %}><a href="/sites/">酷站</a></li>
+        <li class="dropdown {% ifequal active_nav "data" %}active{% endifequal %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">大数据 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'data.community_list' %}">北京房价</a></li>
+            </ul>
+          </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
