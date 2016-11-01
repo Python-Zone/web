@@ -11,7 +11,7 @@ class Job(models.Model):
     description = models.TextField(verbose_name='职位描述')
     salary_min = models.IntegerField(default=0, verbose_name='最低薪资')
     salary_max = models.IntegerField(default=0, verbose_name='最高薪资')
-    city = models.CharField(default='', max_length=50, verbose_name='城市')
+    city = models.CharField(default='', max_length=50, verbose_name='城市', db_index=True)
     address = models.CharField(default='', max_length=200, verbose_name='工作地点')
     company = models.CharField(default='', max_length=50, verbose_name='公司名称')
     company_site = models.CharField(default='', max_length=50, verbose_name='公司主页')

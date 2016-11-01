@@ -50,6 +50,10 @@ class Topic(models.Model):
 
     class Meta:
         verbose_name_plural = "文章"
+        index_together = [
+            ["status", "publish_time"],
+            ["publish_time"],
+        ]
 
 
 class Reply(models.Model):
