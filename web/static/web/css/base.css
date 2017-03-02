@@ -2,6 +2,9 @@
 body {
     background: #E7EAEC;
     color: #222527;
+    -moz-user-select: all !important;
+    -webkit-user-select: all !important;
+    user-select: all !important; // call it at last for better use
 }
 a {
     color: #356DD0;
